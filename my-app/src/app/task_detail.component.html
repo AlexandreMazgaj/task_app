@@ -1,0 +1,6 @@
+<div *ngIf="currentTask">
+  <h2>{{currentTask.id}}</h2>
+  <h3>priority : {{currentTask.priority}}</h3>
+  <p>{{currentTask.content}}</p>
+  <button (click)="deleteTask()">Delete this task</button>
+<div>

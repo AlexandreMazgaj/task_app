@@ -1,0 +1,30 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+
+import { TaskDisplayComponent } from './task_display.component';
+import { TaskDetailComponent } from './task_detail.component';
+
+import { TaskService } from './task.service';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    TaskDisplayComponent,
+    TaskDetailComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    AppRoutingModule
+  ],
+  providers: [TaskService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

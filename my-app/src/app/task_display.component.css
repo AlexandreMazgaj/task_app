@@ -1,0 +1,42 @@
+ul {
+  text-align: center;
+  padding : 1%;
+}
+
+h1 {
+  text-align: center;
+  background-color: #99ABCB;
+  color : #DBDFE8;
+  font-family: Arial;
+}
+
+.tasks {
+  list-style-type: none;
+  width : 100%;
+  padding : 1%;
+}
+
+
+/*.tasks li{
+  cursor : pointer;
+  position : relative;
+
+}*/
+
+.tasks .badge{
+  background-color: #6E788A;
+  color : #ffffff;
+  display: inline-block;
+  position : relative;
+}
+
+body {
+  background-color: #DBDFE8;
+  text-align : center;
+}
+
+div {
+  background-color: #B1CDAD;
+  font-family : Arial;
+  text-align  : center;
+}
