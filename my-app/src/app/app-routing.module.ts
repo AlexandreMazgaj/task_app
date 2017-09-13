@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TaskDisplayComponent } from './task_display.component';
 import { TaskDetailComponent } from './task_detail.component';
+import { InMemoryDataService } from './in-memory-data.service';
 
 
 const routes: Routes = [
