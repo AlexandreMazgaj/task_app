@@ -25,7 +25,7 @@ export class TaskDisplayComponent implements OnInit{
   }
 
   getTasks() : void{
-    this.tasks = this.giving.getTask();
+    this.giving.getTasks().then(tasks => this.tasks = tasks);
   }
 
   ngOnInit(): void{
@@ -33,11 +33,11 @@ export class TaskDisplayComponent implements OnInit{
   }
 
   deleteTask() : void{
-
+    //a implementer
   }
 
   goToDetail(): void{
-    
+    this.router.navigate(['/detail', this.selectedTask.id]);
   }
 
 }

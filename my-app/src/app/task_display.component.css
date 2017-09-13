@@ -1,42 +1,74 @@
-ul {
-  text-align: center;
-  padding : 1%;
+.selected{
+  background-color: #605F80 !important;
+  color: white;
+}
+
+.tasks {
+
+  list-style-type: none;
+  margin-bottom: 2em;
+}
+
+.tasks li{
+   cursor: pointer;
+   margin: .5em;
+   padding: .3em 0;
+   height: 1.6em;
+   border-radius: 4px;
+   font-family : Arial;
+}
+
+
+.tasks .badge{
+  display : inline-block;
+  font-size: small;
+  font-family: Arial;
+  color : #ffffff;
+  padding : 0.8em 0.7em 0 0.7em;
+  background-color: #607D8B;
+  height : 1.8em;
+  border-radius: 4px 4px 4px 4px;
+  line-height: 1em;
+  position: relative;
+  left: -1px;
+  top: -4px;
+  margin-right: 1em;
 }
 
 h1 {
   text-align: center;
-  background-color: #99ABCB;
+  background-color: #607D8B;
   color : #DBDFE8;
   font-family: Arial;
 }
 
-.tasks {
-  list-style-type: none;
-  width : 100%;
-  padding : 1%;
-}
-
-
-/*.tasks li{
-  cursor : pointer;
-  position : relative;
-
-}*/
-
-.tasks .badge{
-  background-color: #6E788A;
-  color : #ffffff;
-  display: inline-block;
-  position : relative;
-}
 
 body {
   background-color: #DBDFE8;
   text-align : center;
+  height : 80vh
 }
 
-div {
-  background-color: #B1CDAD;
+.butt {
   font-family : Arial;
   text-align  : center;
+  display: inline-block;
+  margin-left : 15%;
+}
+
+
+button{
+  transition-duration: 0.4s;
+  transition-timing-function: linear;
+  transition-delay: 0.1s;
+  display : inline-block;
+  border: 1px solid #607D8B;
+  background-color: #607D8B;
+  color : #ffffff;
+
+}
+
+button:hover{
+  background-color: #ffffff;
+  color : #000000;
 }

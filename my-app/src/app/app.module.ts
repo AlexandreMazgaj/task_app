@@ -12,6 +12,9 @@ import { TaskDetailComponent } from './task_detail.component';
 
 import { TaskService } from './task.service';
 
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
+
 @NgModule({
   declarations: [
     AppComponent,
