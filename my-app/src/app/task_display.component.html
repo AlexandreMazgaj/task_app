@@ -1,20 +1,44 @@
+
+
 <body>
 
-<h1>List of tasks</h1>
+<h2 class="col-md-12 col-sm-12 text-center">List of tasks</h2>
 
-<input #taskName type = "text" placeholder="task"/>
-<button (click)="add(taskName.value); taskName.value=''">+</button>
+<div class="col-md-12 col-sm-12 text-center">
+    <input #taskName class="input-lg" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
+    <button id="buttnew" class="btn btn-lg" (click)="add(taskName.value); taskName.value=''">
+      <span class="glyphicon glyphicon-plus-sign"></span>
+    </button>
 
-<ul class="tasks">
-  <li *ngFor="let task of tasks" [class.selected]="task === selectedTask" (click)="onSelect(task)">
-      <span class="badge">{{task.priority}}</span> {{task.name}}
-      <div class="butt" *ngIf="selectedTask == task">
-        <input [(ngModel)]="task.name" placeholder="{{task.name}}">
-        <button (click)="deleteTask()">Delete this task</button>
-        <button (click)="save()">Edit this task</button>
-      </div>
-  </li>
-</ul>
+<div class="col-md-12">
+    <ul id="ulc" class="task list-group col-md-2">
+      <li *ngFor="let task of tasks" class="list-group-item">
+          <input type="checkbox" [(ngModel)]="task.done">
+      </li>
+    </ul>
 
+    <ul class="tasks list-group col-md-10 text-left">
+        <li *ngFor="let task of tasks" class="list-group-item" [class.selected]="task === selectedTask" (click)="onSelect(task)">
+            <span class="col-md-2-push-1">
+                  <!--<input class="checkbox checkbox-success" type="checkbox" [(ngModel)]="task.done">  -->
+                  <div *ngIf="task.done == true">
+                    <p><del>{{task.name}}</del></p>
+                  </div>
+                  <div *ngIf="task.done == false">
+                    <p>{{task.name}}</p>
+                  </div>
+            </span>
+
+            <div class="butt" *ngIf="selectedTask == task">
+              <input id="edit" class="input-sm" [(ngModel)]="task.name" onkeypress="if (event.which==13) document.getElementById('buttsave').click()" placeholder="{{task.name}}">
+              <button class="btn" (click)="deleteTask(task); $event.stopPropagation()">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              <button id="buttsave" class="btn" (click)="save()"><span class="glyphicon glyphicon-pencil"></span></button>
+            </div>
+          </li>
+      </ul>
+    </div>
+</div>
 
 </body>

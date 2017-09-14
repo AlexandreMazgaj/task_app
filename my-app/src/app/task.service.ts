@@ -1,5 +1,4 @@
 import { Task } from './task';
-//import { TASKS } from './mock-data';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
@@ -13,7 +12,8 @@ constructor(private http : Http){}
   private turl = 'api/tasks';
 
   getTasks(): Promise<Task[]>{
-    return this.http.get(this.turl).toPromise().then(res => res.json().data as Task[]).catch(this.handleError);
+    return this.http.get(this.turl).toPromise().then(res => res.json().data as Task[])
+    .catch(this.handleError);
   }
 
 private handleError( error : any ): Promise<any>{
@@ -31,7 +31,8 @@ private headers = new Headers({'Content-Type': 'application/json'});
 
 update(task : Task): Promise<Task>{
   const url  = `${this.turl}/${task.id}`;
-  return this.http.put(url, JSON.stringify(task), {headers: this.headers}).toPromise().then(() => task).catch(this.handleError);
+  return this.http.put(url, JSON.stringify(task), {headers: this.headers})
+  .toPromise().then(() => task).catch(this.handleError);
 }
 
 
@@ -40,6 +41,13 @@ create(name : string): Promise<Task>{
     .toPromise()
     .then(res => res.json().data as Task)
     .catch(this.handleError);
+}
+
+delete(id :number): Promise<void>{
+  const url = `${this.turl}/${id}`;
+  return this.http.delete(url, {headers: this.headers})
+  .toPromise()
+  .then(()=> null).catch(this.handleError);
 }
 
 }

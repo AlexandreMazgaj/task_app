@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { TaskDisplayComponent } from './task_display.component';
-import { TaskDetailComponent } from './task_detail.component';
 
 import { TaskService } from './task.service';
 
@@ -18,8 +17,7 @@ import { InMemoryDataService } from './in-memory-data.service';
 @NgModule({
   declarations: [
     AppComponent,
-    TaskDisplayComponent,
-    TaskDetailComponent
+    TaskDisplayComponent
   ],
   imports: [
     BrowserModule,

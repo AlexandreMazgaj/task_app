@@ -32,8 +32,9 @@ export class TaskDisplayComponent implements OnInit{
     this.getTasks();
   }
 
-  deleteTask() : void{
-    //a implementer
+  deleteTask(task : Task) : void{
+    this.taskService.delete(task.id).then(() => {this.tasks = this.tasks.filter(t => t !== task);
+    if(this.selectedTask === task) { this.selectedTask = null; }});
   }
 
 
@@ -61,8 +62,13 @@ export class TaskDisplayComponent implements OnInit{
   }
 
 
-  checkKey(event : any):void{
-    console.log(event.keyCode);
+  checkKey(event, name : string):void{
+    if(event.keyCode == 13){
+      console.log(event.keyCode);
+    }
+    else{
+      console.log("bonjour");
+    }
   }
 
 }

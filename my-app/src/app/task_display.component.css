@@ -1,0 +1,27 @@
+.selected p{
+  display : none;
+}
+
+.selected input{
+  display : inline;
+}
+
+.selected button{
+  display : inline;
+}
+
+
+#edit{
+  display : inline;
+  margin-left : 4em;
+}
+
+#licheck{
+  padding-top: 50px;
+  padding-bottm: 6px;
+}
+
+
+#ulc li {
+  padding : 12.5px;
+}
