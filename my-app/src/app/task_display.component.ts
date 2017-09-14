@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 
 export class TaskDisplayComponent implements OnInit{
 
-  constructor(private giving : TaskService, private router : Router){}
+  constructor(private taskService : TaskService, private router : Router){}
 
   tasks : Task[];
 
@@ -25,7 +25,7 @@ export class TaskDisplayComponent implements OnInit{
   }
 
   getTasks() : void{
-    this.giving.getTasks().then(tasks => this.tasks = tasks);
+    this.taskService.getTasks().then(tasks => this.tasks = tasks);
   }
 
   ngOnInit(): void{
@@ -36,8 +36,33 @@ export class TaskDisplayComponent implements OnInit{
     //a implementer
   }
 
+
+/*
   goToDetail(): void{
     this.router.navigate(['/detail', this.selectedTask.id]);
+  }
+
+  goToAdd(): void{
+    this.router.navigate(['/addTask']);
+  }*/
+
+
+  add(name : string) : void{
+    name = name.trim();
+    if (!name) { return; }
+
+    this.taskService.create(name)
+    .then(task => { this.tasks.push(task); this.selectedTask = null});
+  }
+
+
+  save(): void {
+    this.taskService.update(this.selectedTask).then(() => this.selectedTask=null );
+  }
+
+
+  checkKey(event : any):void{
+    console.log(event.keyCode);
   }
 
 }

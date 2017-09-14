@@ -4,5 +4,28 @@
   <p>{{currentTask.content}}</p>
   <!--<button (click)="deleteTask()">Delete this task</button> -->
 
+
+  <div>
+      <label>name of the task : </label>
+      <input [(ngModel)]="currentTask.name" placeholder="name"><br>
+      <label>Priority of the task</label>
+      <select [(ngModel)]="currentTask.priority">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+      
+      <label>Description of the task</label>
+      <textarea [(ngModel)]="currentTask.content" placeholder="content">
+        {{currentTask.content}}
+      </textarea>
+  </div>
   <button (click)="goBack()">Go to the List of task</button>
+  <button (click)="save()"> Save the changes</button>
 <div>

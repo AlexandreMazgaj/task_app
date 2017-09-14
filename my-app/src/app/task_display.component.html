@@ -2,13 +2,19 @@
 
 <h1>List of tasks</h1>
 
+<input #taskName type = "text" placeholder="task"/>
+<button (click)="add(taskName.value); taskName.value=''">+</button>
+
 <ul class="tasks">
   <li *ngFor="let task of tasks" [class.selected]="task === selectedTask" (click)="onSelect(task)">
       <span class="badge">{{task.priority}}</span> {{task.name}}
       <div class="butt" *ngIf="selectedTask == task">
+        <input [(ngModel)]="task.name" placeholder="{{task.name}}">
         <button (click)="deleteTask()">Delete this task</button>
-        <button (click)="goToDetail()">View this task</button>
+        <button (click)="save()">Edit this task</button>
       </div>
   </li>
 </ul>
+
+
 </body>

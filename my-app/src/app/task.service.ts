@@ -26,4 +26,20 @@ getTask(id : number): Promise<Task> {
   return this.http.get(url).toPromise().then(res=>res.json().data as Task);
 }
 
+
+private headers = new Headers({'Content-Type': 'application/json'});
+
+update(task : Task): Promise<Task>{
+  const url  = `${this.turl}/${task.id}`;
+  return this.http.put(url, JSON.stringify(task), {headers: this.headers}).toPromise().then(() => task).catch(this.handleError);
+}
+
+
+create(name : string): Promise<Task>{
+    return this.http.post(this.turl, JSON.stringify({name : name}), {headers: this.headers})
+    .toPromise()
+    .then(res => res.json().data as Task)
+    .catch(this.handleError);
+}
+
 }
