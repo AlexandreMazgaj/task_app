@@ -7,6 +7,6 @@ import { Task } from './task';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Softy';
+  title = 'NanoTask';
 
 }

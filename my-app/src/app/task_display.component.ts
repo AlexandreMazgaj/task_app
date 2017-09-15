@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Task } from './task';
 import { TaskService } from './task.service';
 import { Router } from '@angular/router';
-
+import { TaskManager } from './taskManager';
 
 
 
@@ -53,7 +53,7 @@ export class TaskDisplayComponent implements OnInit{
     if (!name) { return; }
 
     this.taskService.create(name)
-    .then(task => { this.tasks.push(task); this.selectedTask = null});
+    .then(task => { task.done = false; this.tasks.push(task); this.selectedTask = null});
   }
 
 

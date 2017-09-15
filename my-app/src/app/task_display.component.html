@@ -1,12 +1,11 @@
-
+<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee&v1' rel='stylesheet' type='text/css'>
 
 <body>
 
-<h2 class="col-md-12 col-sm-12 text-center">List of tasks</h2>
 
-<div class="col-md-12 col-sm-12 text-center">
-    <input #taskName class="input-lg" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
-    <button id="buttnew" class="btn btn-lg" (click)="add(taskName.value); taskName.value=''">
+<div class="col-md-4 col-sm-12 text-center">
+    <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
+    <button id="buttnew" class="btn btn-md" (click)="add(taskName.value); taskName.value=''">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
 

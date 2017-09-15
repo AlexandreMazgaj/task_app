@@ -1,5 +1,9 @@
 h1 {
-  font-family: Arial;
-  color : #494949;
+  font-family: "Bungee";
+  color : #ffffff;
   align-text : center;
+}
+
+header {
+  background-color : #7B511B;
 }

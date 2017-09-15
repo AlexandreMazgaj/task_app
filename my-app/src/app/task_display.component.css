@@ -1,9 +1,16 @@
+h2 {
+  font-family: "Architects Daughter";
+  text-decoration: underline;
+  text-decoration-style: solid;
+}
 .selected p{
   display : none;
 }
 
 .selected input{
   display : inline;
+  font-family: "Architects Daughter", arial sans-serif;
+  font-variant: small-caps;
 }
 
 .selected button{
@@ -16,6 +23,8 @@
   margin-left : 4em;
 }
 
+
+
 #licheck{
   padding-top: 50px;
   padding-bottm: 6px;
@@ -24,4 +33,20 @@
 
 #ulc li {
   padding : 12.5px;
+}
+
+
+input {
+  font-family : "Architects Daughter", arial sans-serif;
+  font-variant: small-caps;
+}
+
+p del {
+  font-family : "Architects Daughter";
+  text-transform: uppercase;
+}
+
+p {
+  font-family : "Architects Daughter", arial sans-serif;
+  text-transform: uppercase;
 }
