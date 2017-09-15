@@ -2,7 +2,6 @@
 
 <body>
 
-
 <div class="col-md-4 col-sm-12 text-center">
     <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
     <button id="buttnew" class="btn btn-md" (click)="add(taskName.value); taskName.value=''">

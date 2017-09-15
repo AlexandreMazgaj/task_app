@@ -1,0 +1,15 @@
+<h1> Trial and error </h1>
+
+<div>
+  <ul class="lists colo-md-12">
+    <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)">
+      {{list.name}}
+      <div *ngIf="selectedManager == list">
+          <display [MotherList]="selectedManager"></display>
+      </div>
+
+    </li>
+  </ul>
+
+
+</div>

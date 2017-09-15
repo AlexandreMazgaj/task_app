@@ -2,7 +2,8 @@ import { Task } from './task';
 
 export class TaskManager {
   public constructor(
-    public list : Task[],
+    public tasks : Task[],
+    public name : string,
     public id : number
   ){}
 

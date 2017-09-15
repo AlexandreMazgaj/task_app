@@ -1,13 +1,14 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TaskDisplayComponent } from './task_display.component';
 import { InMemoryDataService } from './in-memory-data.service';
+
+import { ListDisplayComponent } from './list_display.component'
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/display', pathMatch: 'full' },
-  { path : 'display', component : TaskDisplayComponent }
+  { path: '', redirectTo: '/list_display', pathMatch: 'full' },
+  { path : 'list_display', component : ListDisplayComponent }
 ];
 
 @NgModule({
