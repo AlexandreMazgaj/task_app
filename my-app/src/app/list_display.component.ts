@@ -18,6 +18,8 @@ export class ListDisplayComponent implements OnInit{
 
   lists : TaskManager[];
 
+  editing : boolean = false;
+
   selectedManager : TaskManager;
 
   onSelect(list : TaskManager){
@@ -33,9 +35,44 @@ export class ListDisplayComponent implements OnInit{
   }
 
   deleteList(list : TaskManager) : void{
-    this.taskService.deleteList(list.id).then(() => {this.lists = this.lists.filter(l => l !== list);   //!!!!!je dois implementer deleteList
+    this.taskService.deleteList(list.id).then(() => {this.lists = this.lists.filter(l => l !== list);
       if(this.selectedManager === list) { this.selectedManager=null;}});
+      console.log("probleme listdisplay");
   }
+
+
+addList(name : string): void{
+  name = name.trim();
+  if(!name) { return; }
+
+  this.taskService.createList(name)
+  .then(list => {list.done = false; list.tasks=new Array<Task>(); this.lists
+    .push(list); this.selectedManager=this.lists[this.lists.length-1]});
+}
+
+
+saveL(): void{
+  this.taskService.update(this.selectedManager).then();
+  this.editing = false;
+}
+
+handleDone(event : any): void{
+  console.log("handleDone")
+  for(var i=0; i<this.lists.length; i++){
+    if(event == this.lists[i].id){
+      this.lists[i].done = true;
+    }
+  }
+}
+
+handleNotDone(event : any): void{
+  console.log("handleNoteDone");
+  for(var i=0; i<this.lists.length; i++){
+    if(event == this.lists[i].id){
+      this.lists[i].done = false;
+    }
+  }
+}
 
 
 }

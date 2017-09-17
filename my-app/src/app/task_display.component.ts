@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from './task';
 import { TaskService } from './task.service';
 import { Router } from '@angular/router';
@@ -16,11 +16,14 @@ export class TaskDisplayComponent implements OnInit{
 
   constructor(private taskService : TaskService, private router : Router){}
 
-  tasks : Task[];
+  tasks : Task[] = [];
 
   @Input() MotherList : TaskManager;
 
   selectedTask : Task;
+
+  @Output() listDone : EventEmitter<any> = new EventEmitter();
+  @Output() listNotDone : EventEmitter<any> = new EventEmitter();
 
   onSelect(task : Task): void{
     this.selectedTask = task;
@@ -31,18 +34,26 @@ export class TaskDisplayComponent implements OnInit{
   }
 
   ngOnInit(): void{
+    this.tasks = new Array<Task>();
     this.getTasks(this.MotherList.id);
   }
 
   deleteTask(task : Task) : void{
     this.MotherList.tasks.splice(task.id,1);
     this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks.filter(t => t !== task);
-    if(this.selectedTask === task) { this.selectedTask = null; }});
+    if(this.selectedTask === task) { this.selectedTask = null}});
   }
 
 
 
   add(name : string) : void{
+    var self = this;
+    console.log(this);
+
+    if(this.tasks == undefined){
+      this.tasks = new Array<Task>();
+    }
+
     name = name.trim();
     if (!name) { return; }
 
@@ -60,13 +71,73 @@ export class TaskDisplayComponent implements OnInit{
 
     this.taskService.update(this.MotherList).then(list => { this.tasks
       .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null});
+
+    //  this.changeTask.emit({tasks : this.tasks, list : this.MotherList.id});
     //this.taskService.createTask(this.MotherList.id, name)
     //.then(task => { task.done = false; this.tasks.push(task); this.selectedTask = null});
   }
 
 
-  save(): void {
+  save(task : Task): void {
+    for(var i =0; i<this.tasks.length; i++){
+      if(this.tasks[i].id == task.id){
+        this.MotherList.tasks[i].name = task.name;
+      }
+    }
     this.taskService.update(this.MotherList).then(() => this.selectedTask=null );
   }
+
+
+  updateDoneTask(task : Task): void{
+    console.log(task.done);
+    if(task.done == false){
+      task.done = true;
+    }
+    else{
+      task.done = false;
+    }
+    for(var i=0; i<this.tasks.length; i++){
+      if(task.id == this.tasks[i].id){
+        this.MotherList.tasks[i].done = task.done;
+      }
+    }
+    this.taskService.update(this.MotherList).then(()=> this.selectedTask=null);
+    console.log("ca update bien");
+  }
+
+
+  checkDone(num : number): void{
+
+    var isDone : boolean = true;
+    if(num == 1){
+      this.MotherList.done = false;
+      this.taskService.update(this.MotherList).then();
+    }
+      if(this.tasks.length == 0){
+        isDone=false;
+      }
+
+      for(var i =0; i<this.tasks.length; i++){
+        if(this.tasks[i].done == false){
+          isDone = false;
+        }
+        console.log(this.tasks[i].done)
+
+      }
+
+      if(isDone==true){
+        this.MotherList.done = true;
+        //this.listDone.emit(this.MotherList.id);
+        this.taskService.update(this.MotherList);
+      }
+      else{
+        this.MotherList.done = false;
+        //this.listNotDone.emit(this.MotherList.id);
+        this.taskService.update(this.MotherList);
+      }
+
+
+    }
+
 
 }

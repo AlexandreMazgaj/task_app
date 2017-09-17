@@ -25,6 +25,28 @@ getList(id : number): Promise<TaskManager>{
   return this.http.get(url).toPromise().then(res => res.json().data as TaskManager);
 }
 
+  deleteList(id : number): Promise<void>{
+    const url = `${this.Lurl}/${id}`;
+
+    console.log("probleme taskService");
+    return this.http.delete(url, {headers: this.headers})
+    .toPromise()
+    .then(()=> null).catch(this.handleError);
+  }
+
+createList(name : string): Promise<TaskManager>{
+  return this.http.post(this.Lurl, JSON.stringify({name : name}), {headers: this.headers})
+  .toPromise()
+  .then(res => res.json().data as TaskManager)
+  .catch(this.handleError);
+}
+
+
+update(list : TaskManager): Promise<Task>{
+  const url  = `${this.Lurl}/${list.id}`;//`/tasks/${task.id}`;
+  return this.http.put(url, JSON.stringify(list), {headers: this.headers})
+  .toPromise().then(() => list).catch(this.handleError);
+}
 
 
 
@@ -45,11 +67,7 @@ getTask(idt : number, idL: number): Promise<Task> {
 
 private headers = new Headers({'Content-Type': 'application/json'});
 
-update(list : TaskManager): Promise<Task>{
-  const url  = `${this.Lurl}/${list.id}`;//`/tasks/${task.id}`;
-  return this.http.put(url, JSON.stringify(list), {headers: this.headers})
-  .toPromise().then(() => list).catch(this.handleError);
-}
+
 
 
 
@@ -73,15 +91,9 @@ deleteTask(id :number): Promise<void>{
 
 
 //To handle any Type of error with the requests
-
 private handleError( error : any ): Promise<any>{
    console.error('An error occured', error);
    return Promise.reject(error.message || error);
-  }
-
-  deleteList(id : number): Promise<void>{
-
-    //en construction
   }
 
 

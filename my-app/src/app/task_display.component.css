@@ -50,3 +50,11 @@ p {
   font-family : "Architects Daughter", arial sans-serif;
   text-transform: uppercase;
 }
+
+.btn-circle {
+  width: 40px;
+  height: 40px;
+  line-height: 40px; /* adjust line height to align vertically*/
+  padding:0;
+  border-radius: 50%;
+}

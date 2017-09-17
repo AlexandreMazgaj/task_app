@@ -2,16 +2,18 @@
 
 <body>
 
-<div class="col-md-4 col-sm-12 text-center">
+<div class="col-md-9 col-sm-12 text-center pull-right">
+  <div class="col-md-8">
     <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
-    <button id="buttnew" class="btn btn-md" (click)="add(taskName.value); taskName.value=''">
+    <button id="buttnew" class="btn btn-md btn-success btn-circle" (click)="add(taskName.value); taskName.value=''; checkDone(1)">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
+  </div>
 
 <div class="col-md-12">
     <ul id="ulc" class="task list-group col-md-2">
       <li *ngFor="let task of tasks" class="list-group-item">
-          <input type="checkbox" [(ngModel)]="task.done">
+          <input type="checkbox" (click)="updateDoneTask(task); checkDone(0)" [(ngModel)]="task.done"> <!--chaque fois qu on check une tache, on verifie si toutes les taches ont ete cochees-->
       </li>
     </ul>
 
@@ -29,10 +31,12 @@
 
             <div class="butt" *ngIf="selectedTask == task">
               <input id="edit" class="input-sm" [(ngModel)]="task.name" onkeypress="if (event.which==13) document.getElementById('buttsave').click()" placeholder="{{task.name}}">
-              <button class="btn" (click)="deleteTask(task); $event.stopPropagation()">
+              <button class="btn btn-circle btn-danger" (click)="deleteTask(task); $event.stopPropagation()">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
-              <button id="buttsave" class="btn" (click)="save()"><span class="glyphicon glyphicon-pencil"></span></button>
+              <button id="buttsave" class="btn btn-success btn-circle" (click)="save(task)">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
             </div>
           </li>
       </ul>
