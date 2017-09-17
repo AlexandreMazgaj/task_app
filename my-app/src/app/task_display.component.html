@@ -1,11 +1,11 @@
-<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee&v1' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker&v1' rel='stylesheet' type='text/css'>
 
 <body>
 
-<div class="col-md-9 col-sm-12 text-center pull-right">
-  <div class="col-md-8">
+<div class="col-md-12 col-sm-12 text-center pull-right-3">
+  <div class="col-md-9">
     <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
-    <button id="buttnew" class="btn btn-md btn-success btn-circle" (click)="add(taskName.value); taskName.value=''; checkDone(1)">
+    <button id="buttnew" class="btn btn-md btn-circle positive" (click)="add(taskName.value); taskName.value=''; checkDone(1)">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
   </div>
@@ -13,7 +13,7 @@
 <div class="col-md-12">
     <ul id="ulc" class="task list-group col-md-2">
       <li *ngFor="let task of tasks" class="list-group-item">
-          <input type="checkbox" (click)="updateDoneTask(task); checkDone(0)" [(ngModel)]="task.done"> <!--chaque fois qu on check une tache, on verifie si toutes les taches ont ete cochees-->
+          <input  type="checkbox" (click)="updateDoneTask(task); checkDone(0)" [(ngModel)]="task.done"> <!--chaque fois qu on check une tache, on verifie si toutes les taches ont ete cochees-->
       </li>
     </ul>
 
@@ -22,7 +22,7 @@
             <span class="col-md-2-push-1">
                   <!--<input class="checkbox checkbox-success" type="checkbox" [(ngModel)]="task.done">  -->
                   <div *ngIf="task.done == true">
-                    <p><del>{{task.name}}</del></p>
+                    <del><p>{{task.name}}<p></del>
                   </div>
                   <div *ngIf="task.done == false">
                     <p>{{task.name}}</p>
@@ -31,10 +31,10 @@
 
             <div class="butt" *ngIf="selectedTask == task">
               <input id="edit" class="input-sm" [(ngModel)]="task.name" onkeypress="if (event.which==13) document.getElementById('buttsave').click()" placeholder="{{task.name}}">
-              <button class="btn btn-circle btn-danger" (click)="deleteTask(task); $event.stopPropagation()">
+              <button class="btn btn-circle negative" (click)="deleteTask(task); $event.stopPropagation()">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
-              <button id="buttsave" class="btn btn-success btn-circle" (click)="save(task)">
+              <button id="buttsave" class="btn  btn-circle positive" (click)="save(task)">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
             </div>

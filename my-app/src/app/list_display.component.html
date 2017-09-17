@@ -1,7 +1,8 @@
-<body>
-<h1> Trial and error </h1>
+<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker&v1' rel='stylesheet' type='text/css'>
 
-<div>
+
+<body>
+
   <ul class="row">
     <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)">
 
@@ -9,7 +10,7 @@
 
         <div *ngIf="editing==true && list == selectedManager"> <!--si on click le bouton d edition, on ne fais apparaitre l input seulement pour la liste selectionne-->
           <input [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
-          <button id="buttsaveL" class="btn btn-success" (click)="saveL()">
+          <button id="buttsaveL" class="btn positive" (click)="saveL()">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
 
@@ -17,10 +18,10 @@
 
         <div *ngIf="editing == false || list != selectedManager"> <!--si le bouton d edition n est pas click, on fais apparaitre le nom de la liste ainsi que le bouton d edition et de suppression-->
           {{list.name}}
-          <button class="btn btn-danger btn-circle" (click)="deleteList(list)">
+          <button class="btn negative btn-circle" (click)="deleteList(list)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button class="btn btn-success btn-circle" (click)="editing=true;">
+          <button class="btn positive btn-circle" (click)="editing=true;">
             <span class="glyphicon glyphicon-pencil"></span>
           </button>
         </div>
@@ -31,34 +32,34 @@
 
         <div *ngIf="editing==true && list == selectedManager"> <!--si on click le bouton d edition, on ne fais apparaitre l input seulement pour la liste selectionne-->
           <input [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
-          <button id="buttsaveL" class="btn btn-success" (click)="saveL()">
+          <button id="buttsaveL" class="btn positive" (click)="saveL()">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
 
         </div>
 
         <div *ngIf="editing == false || list != selectedManager">
-          <del>{{list.name}}</del>
-          <button class="btn btn-danger btn-circle" (click)="deleteList(list)">
+          <del><div id="divdel">{{list.name}}</div></del>
+          <button class="btn negative btn-circle" (click)="deleteList(list)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button class="btn btn-success btn-circle" (click)="editing=true;">
+          <button class="btn positive btn-circle" (click)="editing=true;">
             <span class="glyphicon glyphicon-pencil"></span>
           </button>
         </div>
       </div>
+
       <div id="diplay" *ngIf="selectedManager == list">
-          <display (listDone)="handleDone($event)" (listNotDone)="handleNotDone($event)" [MotherList]="selectedManager"></display>
+          <display id="display" (listDone)="handleDone($event)" (listNotDone)="handleNotDone($event)" [MotherList]="selectedManager"></display>
       </div>
     </li>
 
-    <li> <!-- <li> -->  <!--bouton pour pouvoir ajouter une nouvelle liste-->
+    <li class="input"> <!-- <li> -->  <!--bouton pour pouvoir ajouter une nouvelle liste-->
       <input #listName class="input-md" type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" placeholder="new list of task">
-      <button id="addL" class="btn btn-success" (click)="addList(listName.value); listName.value='';">
+      <button id="addL" class="btn positive btn-circle" (click)="addList(listName.value); listName.value='';">
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
     </li> <!--</li>-->
 </ul>
 
-</div>
 </body>

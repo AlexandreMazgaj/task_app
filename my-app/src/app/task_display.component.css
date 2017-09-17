@@ -9,7 +9,7 @@ h2 {
 
 .selected input{
   display : inline;
-  font-family: "Architects Daughter", arial sans-serif;
+  font-family: "Permanent Marker", arial sans-serif;
   font-variant: small-caps;
 }
 
@@ -31,24 +31,49 @@ h2 {
 }
 
 
-#ulc li {
-  padding : 12.5px;
+li{
+  margin-top : 1em;
+  background-color: #F0BD67;
+  border-color: #000000;
+}
+
+li:hover{
+  background-color:#C99F57;
 }
 
 
+#ulc li {
+  padding : 12.5px;
+
+}
+
 input {
-  font-family : "Architects Daughter", arial sans-serif;
+  font-family : "Permanent Marker", arial sans-serif;
   font-variant: small-caps;
 }
 
-p del {
-  font-family : "Architects Daughter";
+#edit {
+  font-family : "Permanent Marker", arial sans-serif;
+  font-variant: small-caps;
+  font-size : 1.2em;
+  background-color: #F0BD67;
+  border : none;
+  border-bottom : 2px solid #000000;
+  border-radius : 0;
+  width : 50%;
+  margin-left : 0;
+}
+
+del {
+  font-family : "Permanent Marker";
   text-transform: uppercase;
+  color: red;
 }
 
 p {
-  font-family : "Architects Daughter", arial sans-serif;
+  font-family : "Permanent Marker", arial sans-serif;
   text-transform: uppercase;
+  color : #000000;
 }
 
 .btn-circle {
@@ -57,4 +82,26 @@ p {
   line-height: 40px; /* adjust line height to align vertically*/
   padding:0;
   border-radius: 50%;
+
+}
+
+#buttnew{
+  background-color : #78C0A8;
+}
+
+.positive{
+  background-color : #78C0A8;
+}
+
+.negative{
+  background-color : #F07818;
+}
+
+
+.glyphicon{
+  color : #ffffff;
+}
+
+body{
+  background-color : #3882a6;
 }
