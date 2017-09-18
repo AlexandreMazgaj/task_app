@@ -27,7 +27,11 @@ export class ListDisplayComponent implements OnInit{
   }
 
   getLists() : void{
-    this.taskService.getLists().then(list => this.lists = list);
+    this.taskService.getLists().then(list => {this.lists = list;
+      if(this.lists.length>0){
+        this.selectedManager = this.lists[0];
+      }
+    });
   }
 
   ngOnInit() : void{
