@@ -39,9 +39,20 @@ export class TaskDisplayComponent implements OnInit{
   }
 
   deleteTask(task : Task) : void{
-    this.MotherList.tasks.splice(task.id,1);
-    this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks.filter(t => t !== task);
-    if(this.selectedTask === task) { this.selectedTask = null}});
+    //this.MotherList.tasks.splice(task.id,1);
+    var i=0;
+    while(i<this.MotherList.tasks.length && task.id != this.MotherList.tasks[i].id){
+      i++
+    }
+
+    if(i == this.MotherList.tasks.length){
+      return;
+    }
+    else{
+      this.MotherList.tasks.splice(i, 1);
+      this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks.filter(t => t !== task);
+        if(this.selectedTask === task) { this.selectedTask = null}});
+    }
   }
 
 
