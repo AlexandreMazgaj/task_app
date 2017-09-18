@@ -11,3 +11,18 @@ header {
 body{
   background-color : #FCEBB6;
 }
+
+@font-face{
+	font-family: "Permanent Marker";
+	src: url(PermanentMarker-Regular.ttf);
+}
+
+@font-face{
+	font-family: "Bungee";
+	src : url(Bungee-Regular.ttf);
+}
+
+@font-face{
+	font-family: "Concert One";
+	src : url(ConcertOne-Regular.ttf);
+}
