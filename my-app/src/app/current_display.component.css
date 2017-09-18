@@ -1,0 +1,17 @@
+body{
+  background-color: #F0BD67 /*#C99F57*/;
+  border : solid #000000 1px;
+  border-radius : 8px;
+}
+
+h3{
+  font-family : "Permanent Marker";
+  margin-left : 10px;
+  font-size : 2em;
+}
+
+p{
+  margin-left : 10px;
+  font-family : "Concert One";
+  font-size : 1.5em;
+}

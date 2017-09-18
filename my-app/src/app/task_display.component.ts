@@ -22,8 +22,8 @@ export class TaskDisplayComponent implements OnInit{
 
   selectedTask : Task;
 
-  @Output() listDone : EventEmitter<any> = new EventEmitter();
-  @Output() listNotDone : EventEmitter<any> = new EventEmitter();
+  //@Output() listDone : EventEmitter<any> = new EventEmitter();
+  //@Output() listNotDone : EventEmitter<any> = new EventEmitter();
 
   onSelect(task : Task): void{
     this.selectedTask = task;
@@ -51,7 +51,9 @@ export class TaskDisplayComponent implements OnInit{
     else{
       this.MotherList.tasks.splice(i, 1);
       this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks.filter(t => t !== task);
-        if(this.selectedTask === task) { this.selectedTask = null}});
+        if(this.selectedTask === task) { this.selectedTask = null}
+        this.checkDone(0);
+      });
     }
   }
 
@@ -81,7 +83,9 @@ export class TaskDisplayComponent implements OnInit{
     this.MotherList.tasks.push(newNewT);
 
     this.taskService.update(this.MotherList).then(list => { this.tasks
-      .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null});
+      .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null;
+      this.checkDone(1);
+    });
 
     //  this.changeTask.emit({tasks : this.tasks, list : this.MotherList.id});
     //this.taskService.createTask(this.MotherList.id, name)

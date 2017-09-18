@@ -1,0 +1,29 @@
+<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker|Concert+One&v1' rel='stylesheet' type='text/css'>
+
+
+<body>
+  <h3>{{currentList.name}}</h3>
+  <p>number of tasks : {{currentList.tasks.length}}</p>
+  <p>tasks yet to be done : {{getUnDone()}}</p>
+  <p>list completion : <meter value="{{getPercentageCompleted()}}" min="0" max="100"></meter> {{getPercentageCompleted()}}%
+
+  <p *ngIf="percentageCompleted<=25">
+    Hey, we all have to start somewhere..
+  </p>
+  <p *ngIf="percentageCompleted>25 && percentageCompleted<50">
+    you have to work a little bit faster if you want to complete everything !!!
+  <p>
+  <p *ngIf="percentageCompleted>=50 && percentageCompleted<75">
+    that is better, but my tetraplegic sloth could have completed those tasks faster than you, you still need to work more !!!
+  </p>
+
+  <p *ngIf="percentageCompleted>=75 && percentageCompleted<100">
+    Almost there, I trust you, you can do it, hey, as a reward, here is a robot : <|O_O|>
+  </p>
+
+  <p *ngIf="percentageCompleted==100">
+    Yes, you did it, congrats... Hey what do you expect ? A medal ?
+  </p>
+
+
+</body>

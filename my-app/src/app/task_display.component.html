@@ -4,8 +4,8 @@
 
 <div class="col-md-12 col-sm-12 text-center pull-right-3">
   <div class="col-md-9">
-    <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..."/>
-    <button id="buttnew" class="btn btn-md btn-circle positive" (click)="add(taskName.value); taskName.value=''; checkDone(1)">
+    <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..." tabindex="1"/>
+    <button id="buttnew" class="btn btn-md btn-circle positive" (click)="add(taskName.value); taskName.value=''">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
   </div>
@@ -18,7 +18,7 @@
     </ul>
 
     <ul class="tasks list-group col-md-10 text-left">
-        <li *ngFor="let task of tasks" class="list-group-item" [class.selected]="task === selectedTask" (click)="onSelect(task)">
+        <li *ngFor="let task of tasks" class="list-group-item" [class.selected]="task === selectedTask" (click)="onSelect(task)" (keyup.enter)="onSelect(task)" tabindex="2">
             <span class="col-md-2-push-1">
                   <!--<input class="checkbox checkbox-success" type="checkbox" [(ngModel)]="task.done">  -->
                   <div *ngIf="task.done == true">

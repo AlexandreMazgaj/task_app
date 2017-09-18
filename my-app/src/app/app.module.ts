@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 
 import { TaskDisplayComponent } from './task_display.component';
 import { ListDisplayComponent } from './list_display.component';
+import { CurrentDisplayComponent } from './current_display.component';
 
 import { TaskService } from './task.service';
 
@@ -19,7 +20,8 @@ import { InMemoryDataService } from './in-memory-data.service';
   declarations: [
     AppComponent,
     TaskDisplayComponent,
-    ListDisplayComponent
+    ListDisplayComponent,
+    CurrentDisplayComponent
   ],
   imports: [
     BrowserModule,
