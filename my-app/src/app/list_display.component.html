@@ -2,13 +2,23 @@
 
 
 <body>
-
+<!--
+This list is used to display the TaskManagers, if the TaskManager is done, we display
+the name of the TaskManager is strokethrough
+-->
   <ul class="row">
+    <!--
+      The TaskManager clicked is binded to he attribute "selectedManager"
+      You can select the TaskManager with the "enter" key
+    -->
     <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)" (keyup.enter)="onSelect(list)" tabindex="1">
 
-      <div *ngIf="list.done == false">   <!--Si la liste n est pas entierement faite, je fais apparaitre le nom, ainsi que le bouton d edition et de supression-->
-
-        <div *ngIf="editing==true && list == selectedManager"> <!--si on click le bouton d edition, on ne fais apparaitre l input seulement pour la liste selectionne-->
+      <div *ngIf="list.done == false">
+        <!-- If the edit button is clicked, the attribute "editing" will be set to
+          true, this will diplay the input button, but only for the TaskManager
+          selected
+      -->
+        <div *ngIf="editing==true && list == selectedManager">
           <input class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
           <button id="buttsaveL" class="btn btn-circle positive" (click)="saveL()">
               <span class="glyphicon glyphicon-pencil"></span>
@@ -16,6 +26,9 @@
 
         </div>
 
+        <!--If the "editing" attribute is set to false, the name is displayed
+
+      -->
         <div *ngIf="editing == false || list != selectedManager"> <!--si le bouton d edition n est pas click, on fais apparaitre le nom de la liste ainsi que le bouton d edition et de suppression-->
           {{list.name}}
           <button class="btn negative btn-circle" (click)="deleteList(list)">
@@ -28,7 +41,11 @@
 
 
       </div>
-      <div *ngIf="list.done == true">  <!--si toutes les taches de la liste sont accomplies, alors on barre le nom de la liste-->
+
+      <!--This to be able to edit the name of a TaskManager if all the tasks
+        have been done, it displays the input button if "editing" is set to true
+    -->
+      <div *ngIf="list.done == true">
 
         <div *ngIf="editing==true && list == selectedManager"> <!--si on click le bouton d edition, on ne fais apparaitre l input seulement pour la liste selectionne-->
           <input class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
@@ -54,14 +71,20 @@
       </div>
     </li>
 
-    <li class="input"> <!-- <li> -->  <!--bouton pour pouvoir ajouter une nouvelle liste-->
+
+    <!--This div is used to display the input button to create a new TaskManager-->
+    <li class="input">
       <input #listName class="input-md" type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" placeholder="new list of task" tabindex="3">
       <button id="addL" class="btn positive btn-circle" (click)="addList(listName.value); listName.value='';">
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
-    </li> <!--</li>-->
+    </li>
 </ul>
 
+
+<!--This is the footer that displays the infos of the selectedManager
+  the attribute "currentList" is binded to the attribute "selectedManager"
+-->
 <footer>
   <current [currentList]="selectedManager"></current>
 </footer>

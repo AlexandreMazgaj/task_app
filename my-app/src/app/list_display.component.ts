@@ -18,13 +18,26 @@ export class ListDisplayComponent implements OnInit{
 
   lists : TaskManager[];
 
-  editing : boolean = false;
+  editing : boolean = false; //to know if the name of the list is being edited
 
   selectedManager : TaskManager;
 
+
+/**
+  *to bind the list selected to the attribute "selectedManager"
+  *@this { ListDisplayComponent }
+  *@return { void }
+  */
   onSelect(list : TaskManager){
     this.selectedManager = list;
   }
+
+
+/**
+  *to get the lists of TaskManagers from the service
+  *@this { ListDisplayComponent }
+  *@return { void }
+  */
 
   getLists() : void{
     this.taskService.getLists().then(list => {this.lists = list;
@@ -34,17 +47,33 @@ export class ListDisplayComponent implements OnInit{
     });
   }
 
+
+/**
+  *get the lists when initialized
+  *@this { ListDisplayComponent }
+  *@return { void }
+*/
   ngOnInit() : void{
     this.getLists();
   }
 
+
+/**
+  *delete a TaskManager using the service,then update the attribute "lists"
+  *@this { ListDisplayComponent }
+  *@return { void }
+*/
   deleteList(list : TaskManager) : void{
     this.taskService.deleteList(list.id).then(() => {this.lists = this.lists.filter(l => l !== list);
       if(this.selectedManager === list) { this.selectedManager=null;}});
       console.log("probleme listdisplay");
   }
 
-
+/**
+  *create and add a TaskManager using the service
+  *@this { ListDisplayComponent }
+  *@return { void }
+*/
 addList(name : string): void{
   name = name.trim();
   if(!name) { return; }
@@ -55,6 +84,11 @@ addList(name : string): void{
 }
 
 
+/**
+  *save a list that has been edited
+  *@this { ListDisplayComponent }
+  *@return { void }
+*/
 saveL(): void{
   this.taskService.update(this.selectedManager).then();
   this.editing = false;

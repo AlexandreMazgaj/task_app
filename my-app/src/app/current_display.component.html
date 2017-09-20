@@ -2,11 +2,17 @@
 
 
 <body>
+  <!--The infos are displayed in a very simple manner, we just use the function
+      rather than the attributes so it will be updated when a change occur
+      in the attribute "currentList"
+-->
   <h3>{{currentList.name}}</h3>
   <p>number of tasks : {{currentList.tasks.length}}</p>
   <p>tasks yet to be done : {{getUnDone()}}</p>
   <p>list completion : <meter value="{{getPercentageCompleted()}}" min="0" max="100"></meter> {{getPercentageCompleted()}}%
 
+
+<!--This is to display a little message every 25% step-->
   <p *ngIf="percentageCompleted<=25">
     Hey, we all have to start somewhere..
   </p>

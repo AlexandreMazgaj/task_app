@@ -16,55 +16,81 @@ export class TaskDisplayComponent implements OnInit{
 
   constructor(private taskService : TaskService, private router : Router){}
 
-  tasks : Task[] = [];
+  tasks : Task[] = [];  //list of tasks to be displayed
 
-  @Input() MotherList : TaskManager;
+  @Input() MotherList : TaskManager;  //the TaskManager that requested the display of its tasks
 
-  selectedTask : Task;
+  selectedTask : Task;  //the task the user selected with the cursor
 
-  //@Output() listDone : EventEmitter<any> = new EventEmitter();
-  //@Output() listNotDone : EventEmitter<any> = new EventEmitter();
 
+/**
+ * Bind the user's click to the attribute selectedTask
+ *@this { TaskDisplayComponent }
+ *@return { void }
+*/
   onSelect(task : Task): void{
     this.selectedTask = task;
   }
 
+/**
+ *to get all the tasks from a list
+ *@this { TaskDisplayComponent }
+ *@param { number }
+ *@return { void }
+*/
   getTasks(idL : number) : void{
     this.taskService.getList(idL).then(list => this.tasks = list.tasks);
   }
 
+
+/**
+ *when the class is initialized, we get the tasks from the list
+ *@this { TaskDisplayComponent }
+ *@return { void }
+*/
   ngOnInit(): void{
     this.tasks = new Array<Task>();
     this.getTasks(this.MotherList.id);
   }
 
+
+/**
+ *Delete a task from the list of task
+ *@this { TaskDisplayComponent }
+ @return { void }
+*/
   deleteTask(task : Task) : void{
-    //this.MotherList.tasks.splice(task.id,1);
-    var i=0;
+    var i=0;  //first we search for the task to be deleted in the TaskManager
     while(i<this.MotherList.tasks.length && task.id != this.MotherList.tasks[i].id){
       i++
     }
 
     if(i == this.MotherList.tasks.length){
-      return;
+      return; //if the task in not here, we stop the function
     }
     else{
-      this.MotherList.tasks.splice(i, 1);
-      this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks.filter(t => t !== task);
+      this.MotherList.tasks.splice(i, 1); //if we found the task, we remove it from the TaskManager
+      this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks
+        .filter(t => t !== task);  //then we update the list of task to be displayed and the TaskManager
+
         if(this.selectedTask === task) { this.selectedTask = null}
-        this.checkDone(0);
+        this.checkDone(0); //we check if this affects the list of tasks that are done
       });
     }
   }
 
 
-
+/**
+ *add a task with name to the list of task
+ *@this { TaskDisplayComponent }
+ *@return { void }
+ */
   add(name : string) : void{
     var self = this;
     console.log(this);
 
     if(this.tasks == undefined){
-      this.tasks = new Array<Task>();
+      this.tasks = new Array<Task>(); //to fix a bug, if tasks is undefined, we create it
     }
 
     name = name.trim();
@@ -73,8 +99,8 @@ export class TaskDisplayComponent implements OnInit{
     var newT : Task;
 
     if(this.MotherList.tasks.length == 0){
-      newT = new Task(this.MotherList.tasks.length, name, false);
-    }
+      newT = new Task(this.MotherList.tasks.length, name, false); //this test is to be able to put
+    }                                                           //the new task at the next available place
     else{
       newT = new Task(this.MotherList.tasks[this.MotherList.tasks.length-1].id+1, name, false);
     }
@@ -84,25 +110,32 @@ export class TaskDisplayComponent implements OnInit{
 
     this.taskService.update(this.MotherList).then(list => { this.tasks
       .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null;
-      this.checkDone(1);
-    });
-
-    //  this.changeTask.emit({tasks : this.tasks, list : this.MotherList.id});
-    //this.taskService.createTask(this.MotherList.id, name)
-    //.then(task => { task.done = false; this.tasks.push(task); this.selectedTask = null});
+      this.checkDone(1);  //then we update the TaskManager, and we see if this affects
+    });                   //the list of tasks that are done
   }
 
 
+/**
+ *Save the name of a task that has been updated
+ *@this { TaskDisplayComponent }
+ @return { void }
+ */
   save(task : Task): void {
     for(var i =0; i<this.tasks.length; i++){
       if(this.tasks[i].id == task.id){
-        this.MotherList.tasks[i].name = task.name;
+        this.MotherList.tasks[i].name = task.name; //this function is used to save the name of a task
       }
     }
     this.taskService.update(this.MotherList).then(() => this.selectedTask=null );
   }
 
 
+
+/**
+ *Update the "done" attribute in a task and in the db
+ *@this { TaskDisplayComponent }
+ *@return { void }
+ */
   updateDoneTask(task : Task): void{
     console.log(task.done);
     if(task.done == false){
@@ -117,10 +150,14 @@ export class TaskDisplayComponent implements OnInit{
       }
     }
     this.taskService.update(this.MotherList).then(()=> this.selectedTask=null);
-    console.log("ca update bien");
   }
 
 
+/**
+ *check if all the tasks are done or not and affects the list "done" attribute
+ *@this { TaskDisplayComponent }
+ *@return { void }
+ */
   checkDone(num : number): void{
 
     var isDone : boolean = true;
@@ -142,12 +179,10 @@ export class TaskDisplayComponent implements OnInit{
 
       if(isDone==true){
         this.MotherList.done = true;
-        //this.listDone.emit(this.MotherList.id);
         this.taskService.update(this.MotherList);
       }
       else{
         this.MotherList.done = false;
-        //this.listNotDone.emit(this.MotherList.id);
         this.taskService.update(this.MotherList);
       }
 

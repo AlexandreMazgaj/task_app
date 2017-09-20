@@ -16,12 +16,22 @@ export class CurrentDisplayComponent implements OnInit{
   numberDone : number = 0;
   percentageCompleted : number = 0;
 
+  /**
+    *it will get all the infos that it needs to display when initialized
+    *@this { CurrentDisplayComponent }
+    *@return { void }
+  */
   ngOnInit() : void{
     this.getUnDone;
     this.getDone;
     this.getPercentageCompleted;
   }
 
+/**
+  *it gets the number of tasks that have their attribute "done" set to false
+  *@this { CurrentDisplayComponent }
+  *@return { number }
+*/
   getUnDone() : number{
     var count : number =0;
 
@@ -34,11 +44,21 @@ export class CurrentDisplayComponent implements OnInit{
     return this.numberUnDone;
   }
 
+/**
+  *It gets the number of tasks that has their attribute "done" set to true
+  *@this { CurrentDisplayComponent }
+  *@return { number }
+*/
   getDone() : number{
     this.numberDone = this.currentList.tasks.length - this.numberUnDone;
     return this.numberDone;
   }
 
+/**
+  *It gets the percentage of tasks that has their attribute "done" set to true
+  *@this { CurrentDisplayComponent }
+  *@return { number }
+*/
   getPercentageCompleted() : number{
     console.log("percentage", this.currentList.tasks.length);
     if(this.currentList.tasks.length==0){

@@ -2,6 +2,12 @@
 
 <body>
 
+<!--
+  The first div is used to for the input, used to create a new task
+  with the onkeypress attribute, the key enter can be pressed to add a task
+  the button will call the function add() that will create a new task
+-->
+
 <div class="col-md-12 col-sm-12 text-center pull-right-3">
   <div class="col-md-9">
     <input #taskName class="input-md" type = "text" onkeypress="if (event.which==13) document.getElementById('buttnew').click()" placeholder="I have to..." tabindex="1"/>
@@ -10,17 +16,25 @@
     </button>
   </div>
 
+
+<!--
+  This div is used for the list of task, I created two lists, one for the
+  checkboxes and one for the name of the tasks
+-->
 <div class="col-md-12">
     <ul id="ulc" class="task list-group col-md-2">
       <li *ngFor="let task of tasks" class="list-group-item">
-          <input  type="checkbox" (click)="updateDoneTask(task); checkDone(0)" [(ngModel)]="task.done"> <!--chaque fois qu on check une tache, on verifie si toutes les taches ont ete cochees-->
-      </li>
+        <!-- Everytime we click on a check box it will update the "done" attribute of the task-->
+          <input  type="checkbox" (click)="updateDoneTask(task); checkDone(0)" [(ngModel)]="task.done">
     </ul>
 
+<!--
+  In this list I binded the task clicked on to the attribut "selectedTask"
+ The name of the task is striked when is "done" attribute true
+-->
     <ul class="tasks list-group col-md-10 text-left">
         <li *ngFor="let task of tasks" class="list-group-item" [class.selected]="task === selectedTask" (click)="onSelect(task)" (keyup.enter)="onSelect(task)" tabindex="2">
             <span class="col-md-2-push-1">
-                  <!--<input class="checkbox checkbox-success" type="checkbox" [(ngModel)]="task.done">  -->
                   <div *ngIf="task.done == true">
                     <del><p>{{task.name}}<p></del>
                   </div>
@@ -29,6 +43,9 @@
                   </div>
             </span>
 
+            <!-- this div is used to edit the task, it display the button and
+                input to be able to edit the task
+          -->
             <div class="butt" *ngIf="selectedTask == task">
               <input id="edit" class="input-sm" [(ngModel)]="task.name" onkeypress="if (event.which==13) document.getElementById('buttsave').click()" placeholder="{{task.name}}">
               <button class="btn btn-circle negative" (click)="deleteTask(task); $event.stopPropagation()">
