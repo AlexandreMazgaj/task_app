@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { TaskManager } from './taskManager';
 import { TaskService } from './task.service';
 import { Task } from './task';
@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
 })
 
 
-export class ListDisplayComponent implements OnInit{
+export class ListDisplayComponent implements OnInit, AfterViewInit{
 
-  constructor(private taskService : TaskService, private router : Router){}
+  constructor(private taskService : TaskService, private router : Router, private cd : ChangeDetectorRef){}
 
   lists : TaskManager[];
 
-  editing : boolean = false; //to know if the name of the list is being edited
+  isUserEditing : boolean = false; //to know if the name of the list is being edited
 
   selectedManager : TaskManager;
 
@@ -58,6 +58,10 @@ export class ListDisplayComponent implements OnInit{
   }
 
 
+ngAfterViewInit(): void{
+  this.cd.detectChanges();
+}
+
 /**
   *delete a TaskManager using the service,then update the attribute "lists"
   *@this { ListDisplayComponent }
@@ -89,28 +93,11 @@ addList(name : string): void{
   *@this { ListDisplayComponent }
   *@return { void }
 */
-saveL(): void{
+saveListName(): void{
   this.taskService.update(this.selectedManager).then();
-  this.editing = false;
+  this.isUserEditing = false;
 }
 
-handleDone(event : any): void{
-  console.log("handleDone")
-  for(var i=0; i<this.lists.length; i++){
-    if(event == this.lists[i].id){
-      this.lists[i].done = true;
-    }
-  }
-}
-
-handleNotDone(event : any): void{
-  console.log("handleNoteDone");
-  for(var i=0; i<this.lists.length; i++){
-    if(event == this.lists[i].id){
-      this.lists[i].done = false;
-    }
-  }
-}
 
 
 }

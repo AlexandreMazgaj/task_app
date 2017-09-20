@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Task } from './task';
 import { TaskManager } from './taskManager';
 
@@ -8,13 +8,15 @@ import { TaskManager } from './taskManager';
   styleUrls : ['current_display.component.css']
 })
 
-export class CurrentDisplayComponent implements OnInit{
+export class CurrentDisplayComponent implements OnInit, AfterViewInit{
 
   @Input() currentList : TaskManager;
 
   numberUnDone : number = 0;
   numberDone : number = 0;
   percentageCompleted : number = 0;
+
+  constructor(private cd : ChangeDetectorRef){}
 
   /**
     *it will get all the infos that it needs to display when initialized
@@ -25,6 +27,11 @@ export class CurrentDisplayComponent implements OnInit{
     this.getUnDone;
     this.getDone;
     this.getPercentageCompleted;
+
+  }
+
+  ngAfterViewInit(): void{
+    this.cd.detectChanges();
   }
 
 /**
@@ -34,14 +41,16 @@ export class CurrentDisplayComponent implements OnInit{
 */
   getUnDone() : number{
     var count : number =0;
-
-    for(var i=0; i<this.currentList.tasks.length; i++){
-      if(this.currentList.tasks[i].done == false){
-        count++;
+    if(!this.isListEmpty(this.currentList)){
+      for(var i=0; i<this.currentList.tasks.length; i++){
+        if(this.currentList.tasks[i].done == false){
+          count++;
+        }
       }
     }
     this.numberUnDone = count;
-    return this.numberUnDone;
+
+    return count;//this.numberUnDone;
   }
 
 /**
@@ -61,7 +70,7 @@ export class CurrentDisplayComponent implements OnInit{
 */
   getPercentageCompleted() : number{
     console.log("percentage", this.currentList.tasks.length);
-    if(this.currentList.tasks.length==0){
+    if(this.isListEmpty(this.currentList)){
       this.percentageCompleted = 0;
     }
     else{
@@ -69,8 +78,20 @@ export class CurrentDisplayComponent implements OnInit{
       this.percentageCompleted *=100;
     }
 
+    if(this.percentageCompleted ==100){
+      this.currentList.done = true;
+    }
+
     return this.percentageCompleted;
   }
 
+  isListEmpty(list : TaskManager): boolean{
+    if(list.tasks.length == 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
 }

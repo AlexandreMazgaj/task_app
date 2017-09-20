@@ -1,4 +1,4 @@
-<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker|Concert+One&v1' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker|Concert+One&v1' rel='stylesheet' type='text/css'>
 
 
 <body>
@@ -9,7 +9,10 @@
   <h3>{{currentList.name}}</h3>
   <p>number of tasks : {{currentList.tasks.length}}</p>
   <p>tasks yet to be done : {{getUnDone()}}</p>
-  <p>list completion : <meter value="{{getPercentageCompleted()}}" min="0" max="100"></meter> {{getPercentageCompleted()}}%
+  <p>list completion :
+    <meter value="{{getPercentageCompleted()}}" min="0" max="100"></meter>
+    {{getPercentageCompleted()}}%
+  </p>
 
 
 <!--This is to display a little message every 25% step-->

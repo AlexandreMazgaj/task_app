@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Task } from './task';
 import { TaskService } from './task.service';
 import { Router } from '@angular/router';
@@ -54,19 +54,16 @@ export class TaskDisplayComponent implements OnInit{
   }
 
 
+
 /**
  *Delete a task from the list of task
  *@this { TaskDisplayComponent }
  @return { void }
 */
   deleteTask(task : Task) : void{
-    var i=0;  //first we search for the task to be deleted in the TaskManager
-    while(i<this.MotherList.tasks.length && task.id != this.MotherList.tasks[i].id){
-      i++
-    }
-
-    if(i == this.MotherList.tasks.length){
-      return; //if the task in not here, we stop the function
+    var i = this.findPlaceTask(task.id);
+    if(i<0){
+      return;
     }
     else{
       this.MotherList.tasks.splice(i, 1); //if we found the task, we remove it from the TaskManager
@@ -89,11 +86,12 @@ export class TaskDisplayComponent implements OnInit{
     var self = this;
     console.log(this);
 
+
     if(this.tasks == undefined){
       this.tasks = new Array<Task>(); //to fix a bug, if tasks is undefined, we create it
     }
 
-    name = name.trim();
+    name = name.trim();  //if the user hasn't inputed a name, we don't save it
     if (!name) { return; }
 
     var newT : Task;
@@ -103,10 +101,10 @@ export class TaskDisplayComponent implements OnInit{
     }                                                           //the new task at the next available place
     else{
       newT = new Task(this.MotherList.tasks[this.MotherList.tasks.length-1].id+1, name, false);
-    }
+    }  //if there is already a task in the array,
 
-    const newNewT = newT;
-    this.MotherList.tasks.push(newNewT);
+    const newTask = newT;
+    this.MotherList.tasks.push(newTask);
 
     this.taskService.update(this.MotherList).then(list => { this.tasks
       .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null;
@@ -121,10 +119,13 @@ export class TaskDisplayComponent implements OnInit{
  @return { void }
  */
   save(task : Task): void {
-    for(var i =0; i<this.tasks.length; i++){
-      if(this.tasks[i].id == task.id){
-        this.MotherList.tasks[i].name = task.name; //this function is used to save the name of a task
-      }
+    var i = this.findPlaceTask(task.id);
+    if(i<0){
+      return;
+    }
+    else{
+      //this function is only used to save the new name of the task we are editing
+      this.MotherList.tasks[i].name = task.name;
     }
     this.taskService.update(this.MotherList).then(() => this.selectedTask=null );
   }
@@ -138,17 +139,22 @@ export class TaskDisplayComponent implements OnInit{
  */
   updateDoneTask(task : Task): void{
     console.log(task.done);
+
     if(task.done == false){
       task.done = true;
     }
     else{
       task.done = false;
     }
-    for(var i=0; i<this.tasks.length; i++){
-      if(task.id == this.tasks[i].id){
-        this.MotherList.tasks[i].done = task.done;
-      }
+
+    var i = this.findPlaceTask(task.id);
+    if(i<0){
+      return;
     }
+    else{
+      this.MotherList.tasks[i].done = task.done;
+    }
+
     this.taskService.update(this.MotherList).then(()=> this.selectedTask=null);
   }
 
@@ -160,24 +166,33 @@ export class TaskDisplayComponent implements OnInit{
  */
   checkDone(num : number): void{
 
-    var isDone : boolean = true;
-    if(num == 1){
+    var listIsDone : boolean = true;
+    if(num == 1){ //the 1 means that the function has been called when adding a
+      //task to the list, the List cannot be done in that case
       this.MotherList.done = false;
       this.taskService.update(this.MotherList).then();
     }
+
+    //if there is no tasks in the list, then we decide that the list is not done
       if(this.tasks.length == 0){
-        isDone=false;
+        listIsDone=false;
       }
 
+      //We look for each tasks in the list, if one task is not done, then the
+      //list is done, and we put the var at "listIsDone" at false
       for(var i =0; i<this.tasks.length; i++){
         if(this.tasks[i].done == false){
-          isDone = false;
+          listIsDone = false;
         }
         console.log(this.tasks[i].done)
 
       }
 
-      if(isDone==true){
+      //To be instantaneous, because the function will receive the value
+      //from the checkbox before it was clicked, the function will not receive the
+      //current value that the user is trying to set, we change the value of listIsDone
+      //to the opposite value (the one that the User wants to set)
+      if(listIsDone==true){
         this.MotherList.done = true;
         this.taskService.update(this.MotherList);
       }
@@ -189,5 +204,18 @@ export class TaskDisplayComponent implements OnInit{
 
     }
 
+
+    findPlaceTask(idTask : number): number{
+      var i=0; //we look for the task having the id, idTask
+      while(i<this.MotherList.tasks.length && idTask != this.MotherList.tasks[i].id){
+        i++
+      }
+      if(i>this.MotherList.tasks.length){ //if we didn't find it, we return a negative value
+        return -1;
+      }
+      else{
+        return i; //if we did, we return its place in the tab
+      }
+    }
 
 }

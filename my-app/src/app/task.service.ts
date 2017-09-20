@@ -19,7 +19,7 @@ constructor(private http : Http){}
   *@this { TaskService }
   *@return { Promise<TaskManager[]> }
 */
-  getLists(): Promise<TaskManager[]>{
+  public getLists(): Promise<TaskManager[]>{
     return this.http.get(this.Lurl).toPromise().then(res => res.json().data as TaskManager[]) //we ask the server to give us all the lists
     .catch(this.handleError);
   }

@@ -1,4 +1,4 @@
-<link href='http://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker&v1' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker&v1' rel='stylesheet' type='text/css'>
 
 
 <body>
@@ -13,63 +13,49 @@ the name of the TaskManager is strokethrough
     -->
     <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)" (keyup.enter)="onSelect(list)" tabindex="1">
 
-      <div *ngIf="list.done == false">
-        <!-- If the edit button is clicked, the attribute "editing" will be set to
+        <!-- If the edit button is clicked, the attribute "isUserEditing" will be set to
           true, this will diplay the input button, but only for the TaskManager
           selected
       -->
-        <div *ngIf="editing==true && list == selectedManager">
+        <div *ngIf="isUserEditing==true && list == selectedManager">
           <input class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
-          <button id="buttsaveL" class="btn btn-circle positive" (click)="saveL()">
+          <button id="buttsaveL" class="btn btn-circle positive" (click)="saveListName()">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
 
         </div>
 
-        <!--If the "editing" attribute is set to false, the name is displayed
+        <!--If the "isUserEditing" attribute is set to false, the name is displayed
 
       -->
-        <div *ngIf="editing == false || list != selectedManager"> <!--si le bouton d edition n est pas click, on fais apparaitre le nom de la liste ainsi que le bouton d edition et de suppression-->
+        <div *ngIf="isUserEditing == false || list != selectedManager">
+          <!-- If the list is not done, we display the name,
+            if it is done, the name is strokethrough
+        -->
+
+          <div *ngIf="list.done == false">
           {{list.name}}
-          <button class="btn negative btn-circle" (click)="deleteList(list)">
-            <span class="glyphicon glyphicon-trash"></span>
-          </button>
-          <button class="btn positive btn-circle" (click)="editing=true;">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </button>
         </div>
-
-
-      </div>
-
-      <!--This to be able to edit the name of a TaskManager if all the tasks
-        have been done, it displays the input button if "editing" is set to true
-    -->
-      <div *ngIf="list.done == true">
-
-        <div *ngIf="editing==true && list == selectedManager"> <!--si on click le bouton d edition, on ne fais apparaitre l input seulement pour la liste selectionne-->
-          <input class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
-          <button id="buttsaveL" class="btn btn-circle positive" (click)="saveL()">
-              <span class="glyphicon glyphicon-pencil"></span>
-          </button>
-
-        </div>
-
-        <div *ngIf="editing == false || list != selectedManager">
+        <div *ngIf="list.done != false">
           <del><div id="divdel">{{list.name}}</div></del>
+        </div>
+        <!--Those buttons are used to edit and delete the list-->
           <button class="btn negative btn-circle" (click)="deleteList(list)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button class="btn positive btn-circle" (click)="editing=true;">
+          <button class="btn positive btn-circle" (click)="isUserEditing=true;">
             <span class="glyphicon glyphicon-pencil"></span>
           </button>
         </div>
-      </div>
 
-      <div id="diplay" *ngIf="selectedManager == list">
-          <display id="display" (listDone)="handleDone($event)" (listNotDone)="handleNotDone($event)" [MotherList]="selectedManager" tabindex="2"></display>
+        <!--This div is used to display the list of tasks, it needs to stay
+          in the "ul" tag or it will display the tasks of all the lists
+      -->
+      <div id="diplay" *ngIf="selectedManager==list">
+          <display id="display" [MotherList]="selectedManager" tabindex="2"></display>
       </div>
     </li>
+
 
 
     <!--This div is used to display the input button to create a new TaskManager-->
@@ -85,7 +71,7 @@ the name of the TaskManager is strokethrough
 <!--This is the footer that displays the infos of the selectedManager
   the attribute "currentList" is binded to the attribute "selectedManager"
 -->
-<footer>
+<footer *ngIf="selectedManager">
   <current [currentList]="selectedManager"></current>
 </footer>
 
