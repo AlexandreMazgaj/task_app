@@ -54,6 +54,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit{
   *@return { void }
 */
   ngOnInit() : void{
+    this.lists = new Array<TaskManager>();
     this.getLists();
   }
 

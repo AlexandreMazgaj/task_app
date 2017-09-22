@@ -1,3 +1,7 @@
+p{
+
+}
+
 li {
   color : #ffffff;
   list-style: none;
@@ -93,4 +97,24 @@ footer{
   bottom : 0;
   position : fixed;
   width : 100%;
+}
+
+.editingFalse{
+
+}
+
+#addL{
+
+}
+
+#inputL{
+
+}
+
+#saveL{
+
+}
+
+#inputNameEdit{
+  
 }

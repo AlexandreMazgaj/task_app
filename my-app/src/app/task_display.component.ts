@@ -105,10 +105,12 @@ export class TaskDisplayComponent implements OnInit{
 
     const newTask = newT;
     this.MotherList.tasks.push(newTask);
+    this.tasks.push(this.MotherList.tasks[this.MotherList.tasks.length-1]);
 
-    this.taskService.update(this.MotherList).then(list => { this.tasks
-      .push(this.MotherList.tasks[this.MotherList.tasks.length-1]); this.selectedTask=null;
-      this.checkDone(1);  //then we update the TaskManager, and we see if this affects
+    this.taskService.update(this.MotherList).then(list => { this.selectedTask=null;
+      this.checkDone(1);
+      console.log('length',this.MotherList.tasks.length);
+        //then we update the TaskManager, and we see if this affects
     });                   //the list of tasks that are done
   }
 

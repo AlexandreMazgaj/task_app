@@ -33,7 +33,8 @@ constructor(private http : Http){}
 */
 getList(id : number): Promise<TaskManager>{
   const url = `${this.Lurl}/${id}`;
-  return this.http.get(url).toPromise().then(res => res.json().data as TaskManager);
+  return this.http.get(url).toPromise().then(res => res.json().data as TaskManager)
+  .catch(this.handleError);
 }
 
 
@@ -69,7 +70,7 @@ getList(id : number): Promise<TaskManager>{
   *@this { TaskService }
   *@return { Promise<Task> }
 */
-  update(list : TaskManager): Promise<Task>{
+  update(list : TaskManager): Promise<void>{
     const url  = `${this.Lurl}/${list.id}`;  //most used function when dealing with tasks
     return this.http.put(url, JSON.stringify(list), {headers: this.headers})
     .toPromise().then(() => list).catch(this.handleError);
@@ -88,7 +89,8 @@ getList(id : number): Promise<TaskManager>{
 
   getTask(idt : number, idL: number): Promise<Task> {
     const url = `${this.Lurl}/${idL}/tasks/${idt}`;
-    return this.http.get(url).toPromise().then(res=>res.json().data as Task);
+    return this.http.get(url).toPromise().then(res=>res.json().data as Task)
+    .catch(this.handleError);
   }
 
 

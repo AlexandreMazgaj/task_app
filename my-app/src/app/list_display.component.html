@@ -1,16 +1,11 @@
 <link href='https://fonts.googleapis.com/css?family=Architects+Daughter|Bungee|Handlee|Permanent+Marker&v1' rel='stylesheet' type='text/css'>
-
-
 <body>
-<!--
-This list is used to display the TaskManagers, if the TaskManager is done, we display
-the name of the TaskManager is strokethrough
--->
   <ul class="row">
     <!--
       The TaskManager clicked is binded to he attribute "selectedManager"
       You can select the TaskManager with the "enter" key
     -->
+    <div *ngIf="lists != undefined">
     <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)" (keyup.enter)="onSelect(list)" tabindex="1">
 
         <!-- If the edit button is clicked, the attribute "isUserEditing" will be set to
@@ -18,7 +13,7 @@ the name of the TaskManager is strokethrough
           selected
       -->
         <div *ngIf="isUserEditing==true && list == selectedManager">
-          <input class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
+          <input id="inputEditName" class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
           <button id="buttsaveL" class="btn btn-circle positive" (click)="saveListName()">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
@@ -28,26 +23,21 @@ the name of the TaskManager is strokethrough
         <!--If the "isUserEditing" attribute is set to false, the name is displayed
 
       -->
-        <div *ngIf="isUserEditing == false || list != selectedManager">
+        <div class="editingFalse" *ngIf="isUserEditing == false || list != selectedManager">
           <!-- If the list is not done, we display the name,
             if it is done, the name is strokethrough
         -->
-
-          <div *ngIf="list.done == false">
-          {{list.name}}
-        </div>
+          <div *ngIf="list.done == false" class="divNotDel">{{list.name}}</div>
         <div *ngIf="list.done != false">
           <del><div id="divdel">{{list.name}}</div></del>
         </div>
         <!--Those buttons are used to edit and delete the list-->
-          <button class="btn negative btn-circle" (click)="deleteList(list)">
+          <button id="buttonTrash" class="btn negative btn-circle" (click)="deleteList(list)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button class="btn positive btn-circle" (click)="isUserEditing=true;">
+          <button id="editingTrue" class="btn positive btn-circle" (click)="isUserEditing=true;">
             <span class="glyphicon glyphicon-pencil"></span>
-          </button>
-        </div>
-
+          </button></div>
         <!--This div is used to display the list of tasks, it needs to stay
           in the "ul" tag or it will display the tasks of all the lists
       -->
@@ -55,16 +45,14 @@ the name of the TaskManager is strokethrough
           <display id="display" [MotherList]="selectedManager" tabindex="2"></display>
       </div>
     </li>
-
-
-
     <!--This div is used to display the input button to create a new TaskManager-->
     <li class="input">
-      <input #listName class="input-md" type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" placeholder="new list of task" tabindex="3">
+      <input id="inputL" #listName class="input-md" type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" placeholder="new list of task" tabindex="3">
       <button id="addL" class="btn positive btn-circle" (click)="addList(listName.value); listName.value='';">
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
     </li>
+  </div>
 </ul>
 
 
