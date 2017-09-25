@@ -37,4 +37,13 @@ describe('my-app App', () => {
 
   });
 
+
+  it('should display the current list when a list is clicked', async() => {
+    page.navigateTo();
+    let currentList = element(by.css('.selected'));
+    let nameCurrentList = element(by.css('h3'));
+    await
+    expect(nameCurrentList).toBe('List1');
+  })
+
 });
