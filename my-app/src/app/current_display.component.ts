@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Task } from './task';
 import { TaskManager } from './taskManager';
+import { Subscription } from 'rxjs/Subscription';
+import { TaskService } from './task.service';
 
-@Component({
+ @Component({
   selector : 'current',
   templateUrl : 'current_display.component.html',
   styleUrls : ['current_display.component.css']
@@ -10,13 +12,17 @@ import { TaskManager } from './taskManager';
 
 export class CurrentDisplayComponent implements OnInit, AfterViewInit{
 
-  @Input() currentList : TaskManager;
+  currentList : TaskManager;
+
+  subscription : Subscription;
 
   numberUnDone : number = 0;
   numberDone : number = 0;
   percentageCompleted : number = 0;
 
-  constructor(private cd : ChangeDetectorRef){}
+  constructor(private cd : ChangeDetectorRef, private currentService : TaskService){
+    this.subscription = this.currentService.getCurrentList().subscribe(current => {this.currentList = current;});
+  }
 
   /**
     *it will get all the infos that it needs to display when initialized

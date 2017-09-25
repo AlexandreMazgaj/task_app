@@ -30,6 +30,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit{
   */
   onSelect(list : TaskManager){
     this.selectedManager = list;
+    this.setCurrentList(list);
   }
 
 
@@ -42,7 +43,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit{
   getLists() : void{
     this.taskService.getLists().then(list => {this.lists = list;
       if(this.lists.length>0){
-        this.selectedManager = this.lists[0];
+        this.onSelect(this.lists[0]);
       }
     });
   }
@@ -85,7 +86,7 @@ addList(name : string): void{
 
   this.taskService.createList(name)
   .then(list => {list.done = false; list.tasks=new Array<Task>(); this.lists
-    .push(list); this.selectedManager=this.lists[this.lists.length-1]});
+    .push(list); this.onSelect(this.lists[this.lists.length-1])});
 }
 
 
@@ -99,6 +100,8 @@ saveListName(): void{
   this.isUserEditing = false;
 }
 
-
+setCurrentList(list : TaskManager): void{
+  this.taskService.setCurrentList(list);
+}
 
 }

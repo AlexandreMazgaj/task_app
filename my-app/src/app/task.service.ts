@@ -2,6 +2,8 @@ import { Task } from './task';
 import { TaskManager } from './taskManager';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -11,6 +13,9 @@ constructor(private http : Http){}
 
   private Lurl = 'api/list';
   private headers = new Headers({'Content-Type': 'application/json'});
+
+  private currentList : Subject<TaskManager> = new BehaviorSubject<TaskManager>(null);
+
 
 //gestion des listes de listes de Tache
 
@@ -94,8 +99,16 @@ getList(id : number): Promise<TaskManager>{
   }
 
 
+//gestion de la liste courante
 
 
+getCurrentList(){
+  return this.currentList.asObservable();
+}
+
+setCurrentList(list : TaskManager){
+  this.currentList.next(list);
+}
 
 
 
