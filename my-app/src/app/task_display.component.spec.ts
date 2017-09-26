@@ -26,16 +26,16 @@ import {APP_BASE_HREF} from '@angular/common';
 describe('TaskDisplayComponent', () => {
   let component: TaskDisplayComponent;
   let fixture: ComponentFixture<TaskDisplayComponent>;
-  let taskService : TaskService;
-  let mokList : TaskManager;
-  let mokArrayTask : Array<Task>;
-  let mokTask : Task;
-  let mokArray : Array<TaskManager>;
-  let de : DebugElement;
-  let spy : any;
-  let spyGetT : any;
-  let spyUpdate : any;
-  let spyAdd : any;
+  let taskService: TaskService;
+  let mokList: TaskManager;
+  let mokArrayTask: Array<Task>;
+  let mokTask: Task;
+  let mokArray: Array<TaskManager>;
+  let de: DebugElement;
+  let spy: any;
+  let spyGetT: any;
+  let spyUpdate: any;
+  // let spyAdd: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -51,7 +51,7 @@ describe('TaskDisplayComponent', () => {
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule],
-      providers: [{provide : APP_BASE_HREF, useValue:'/'}, TaskService]
+      providers: [{provide : APP_BASE_HREF, useValue: '/'}, TaskService]
     })
     .compileComponents();
   }));
@@ -70,12 +70,12 @@ describe('TaskDisplayComponent', () => {
     taskService = TestBed.get(TaskService);
     component.MotherList = mokList;
     spy = spyOn(taskService, 'getLists').and.returnValue(Promise.resolve(mokArray));
-    spyGetT = spyOn(component, 'getTasks').and.callFake(() =>{
+    spyGetT = spyOn(component, 'getTasks').and.callFake(() => {
       component.tasks = mokArrayTask;
-    })
+    });
     spyUpdate = spyOn(taskService, 'update').and.returnValue(Promise.resolve(null));
 
-    //spyAdd = spyOn(component, 'add').and.returnValue(null);
+    // spyAdd = spyOn(component, 'add').and.returnValue(null);
     fixture.detectChanges();
   });
 
@@ -85,43 +85,43 @@ describe('TaskDisplayComponent', () => {
 
   it('should call "getTasks" when initialized', () => {
     expect(spyGetT.calls.count()).toEqual(1);
-  })
+  });
 
   it('should get Tasks when initialized', async(() => {
       const mokArrayTask2 = new Array<Task>();
 
       fixture.whenStable().then(() => {
         expect(component.tasks).toBe(mokArrayTask);
-      })
+      });
   }));
 
-  it('should show task when initialized', async(() =>{
+  it('should show task when initialized', async(() => {
       fixture.whenStable().then(() => {
-        let el = de.nativeElement.querySelector("#showName");
+        const el = de.nativeElement.querySelector('#showName');
         expect(el.innerText).toContain('TASK1');
-      })
+      });
   }));
 
 
   it('should add a task when the button "add" is clicked', async(() => {
-      let input = de.nativeElement.querySelector('#inputNew');
+      const input = de.nativeElement.querySelector('#inputNew');
       input.value = 'Task2';
-      let button = de.query(By.css('#buttnew')).nativeElement;
+      const button = de.query(By.css('#buttnew')).nativeElement;
       button.click();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        //expect(spyAdd.calls.count()).toBe(0);
-        component.tasks.pop();  //the test adds the tasks from this.tasks and the tasks from this.MotherList.tasks but not the actual app
+        // expect(spyAdd.calls.count()).toBe(0);
+        component.tasks.pop();  // the test adds the tasks from this.tasks and the tasks from this.MotherList.tasks but not the actual app
         expect(component.tasks.length).toEqual(2);
         expect(component.tasks[1].name).toBe('Task2');
-      })
+      });
     }));
 
     it('should delete a task when the function "deleteTask" is called', async(() => {
         component.deleteTask(mokTask);
         fixture.whenStable().then(() => {
           expect(component.tasks.length).toEqual(0);
-        })
+        });
   }));
 
 

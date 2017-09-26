@@ -30,9 +30,9 @@ import 'rxjs/Rx';
 describe('CurrentDisplayComponent', () => {
   let component: CurrentDisplayComponent;
   let fixture: ComponentFixture<CurrentDisplayComponent>;
-  let mokCurrentList : TaskManager;
-  let mokCurrentTask : Task;
-  let de : DebugElement;
+  let mokCurrentList: TaskManager;
+  let mokCurrentTask: Task;
+  let de: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe('CurrentDisplayComponent', () => {
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule],
-      providers: [{provide : APP_BASE_HREF, useValue:'/'}, TaskService, InMemoryDataService]
+      providers: [{provide : APP_BASE_HREF, useValue: '/'}, TaskService, InMemoryDataService]
     })
     .compileComponents();
   }));
@@ -57,7 +57,7 @@ describe('CurrentDisplayComponent', () => {
     fixture = TestBed.createComponent(CurrentDisplayComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement;
-    //to set the input
+    // to set the input
     mokCurrentTask = new Task(1, 'task1', false);
     mokCurrentList = new TaskManager(1, 'list1', false, Array<Task>());
     mokCurrentList.tasks[0] = mokCurrentTask;
@@ -70,7 +70,7 @@ describe('CurrentDisplayComponent', () => {
   });
 
   it('should display the name of the list when initialized', () => {
-    let el = de.nativeElement.querySelector('h3');
+    const el = de.nativeElement.querySelector('h3');
     expect(el.innerText).toContain('list1');
   });
 

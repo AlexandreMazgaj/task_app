@@ -7,20 +7,20 @@ import { TaskManager } from './taskManager';
 
 
 @Component({
-  selector : 'display',
+  selector : 'app-task-display',
   templateUrl : './task_display.component.html',
   styleUrls : ['task_display.component.css']
 })
 
-export class TaskDisplayComponent implements OnInit{
+export class TaskDisplayComponent implements OnInit {
 
-  constructor(private taskService : TaskService, private router : Router){}
+  constructor(private taskService: TaskService, private router: Router) {}
 
-  tasks : Task[] = [];  //list of tasks to be displayed
+  tasks: Task[] = [];  // list of tasks to be displayed
 
-  @Input() MotherList : TaskManager;  //the TaskManager that requested the display of its tasks
+  @Input() MotherList: TaskManager;  // the TaskManager that requested the display of its tasks
 
-  selectedTask : Task;  //the task the user selected with the cursor
+  selectedTask: Task;  // the task the user selected with the cursor
 
 
 /**
@@ -28,7 +28,7 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  *@return { void }
 */
-  onSelect(task : Task): void{
+  onSelect(task: Task): void {
     this.selectedTask = task;
   }
 
@@ -38,7 +38,7 @@ export class TaskDisplayComponent implements OnInit{
  *@param { number }
  *@return { void }
 */
-  getTasks(idL : number) : void{
+  getTasks(idL: number): void {
     this.taskService.getList(idL).then(list => this.tasks = list.tasks);
   }
 
@@ -48,7 +48,7 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  *@return { void }
 */
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.tasks = new Array<Task>();
     this.getTasks(this.MotherList.id);
   }
@@ -60,18 +60,17 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  @return { void }
 */
-  deleteTask(task : Task) : void{
-    var i = this.findPlaceTask(task.id);
-    if(i<0){
+  deleteTask(task: Task): void {
+    const i = this.findPlaceTask(task.id);
+    if (i < 0) {
       return;
-    }
-    else{
-      this.MotherList.tasks.splice(i, 1); //if we found the task, we remove it from the TaskManager
+    }else {
+      this.MotherList.tasks.splice(i, 1); // if we found the task, we remove it from the TaskManager
       this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks
-        .filter(t => t !== task);  //then we update the list of task to be displayed and the TaskManager
+        .filter(t => t !== task);  // then we update the list of task to be displayed and the TaskManager
 
-        if(this.selectedTask === task) { this.selectedTask = null}
-        this.checkDone(0); //we check if this affects the list of tasks that are done
+        if (this.selectedTask === task) { this.selectedTask = null; }
+        this.checkDone(0); // we check if this affects the list of tasks that are done
       });
     }
   }
@@ -82,36 +81,35 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  *@return { void }
  */
-  add(name : string) : void{
-    var self = this;
+  add(name: string): void {
+    const self = this;
     console.log(this);
 
 
-    if(this.tasks == undefined){
-      this.tasks = new Array<Task>(); //to fix a bug, if tasks is undefined, we create it
+    if (this.tasks === undefined) {
+      this.tasks = new Array<Task>(); // to fix a bug, if tasks is undefined, we create it
     }
 
-    name = name.trim();  //if the user hasn't inputed a name, we don't save it
+    name = name.trim();  // if the user hasn't inputed a name, we don't save it
     if (!name) { return; }
 
-    var newT : Task;
+    let newT: Task;
 
-    if(this.MotherList.tasks.length == 0){
-      newT = new Task(this.MotherList.tasks.length, name, false); //this test is to be able to put
-    }                                                           //the new task at the next available place
-    else{
-      newT = new Task(this.MotherList.tasks[this.MotherList.tasks.length-1].id+1, name, false);
-    }  //if there is already a task in the array,
+    if (this.MotherList.tasks.length === 0) {
+      newT = new Task(this.MotherList.tasks.length, name, false); // this test is to be able to put
+    }else {                         // the new task at the next available place
+      newT = new Task(this.MotherList.tasks[this.MotherList.tasks.length - 1].id + 1, name, false);
+    }  // if there is already a task in the array,
 
     const newTask = newT;
     this.MotherList.tasks.push(newTask);
-    this.tasks.push(this.MotherList.tasks[this.MotherList.tasks.length-1]);
+    this.tasks.push(this.MotherList.tasks[this.MotherList.tasks.length - 1]);
 
-    this.taskService.update(this.MotherList).then(list => { this.selectedTask=null;
+    this.taskService.update(this.MotherList).then(list => { this.selectedTask = null;
       this.checkDone(1);
-      console.log('length',this.MotherList.tasks.length);
-        //then we update the TaskManager, and we see if this affects
-    });                   //the list of tasks that are done
+      console.log('length', this.MotherList.tasks.length);
+        // then we update the TaskManager, and we see if this affects
+    });                   // the list of tasks that are done
   }
 
 
@@ -120,16 +118,15 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  @return { void }
  */
-  save(task : Task): void {
-    var i = this.findPlaceTask(task.id);
-    if(i<0){
+  save(task: Task): void {
+    const i = this.findPlaceTask(task.id);
+    if (i < 0) {
       return;
-    }
-    else{
-      //this function is only used to save the new name of the task we are editing
+    }else {
+      // this function is only used to save the new name of the task we are editing
       this.MotherList.tasks[i].name = task.name;
     }
-    this.taskService.update(this.MotherList).then(() => this.selectedTask=null );
+    this.taskService.update(this.MotherList).then(() => this.selectedTask = null );
   }
 
 
@@ -139,25 +136,23 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  *@return { void }
  */
-  updateDoneTask(task : Task): void{
+  updateDoneTask(task: Task): void {
     console.log(task.done);
 
-    if(task.done == false){
+    if (task.done === false) {
       task.done = true;
-    }
-    else{
+    }else {
       task.done = false;
     }
 
-    var i = this.findPlaceTask(task.id);
-    if(i<0){
+    const i = this.findPlaceTask(task.id);
+    if (i < 0) {
       return;
-    }
-    else{
+    }else {
       this.MotherList.tasks[i].done = task.done;
     }
 
-    this.taskService.update(this.MotherList).then(()=> this.selectedTask=null);
+    this.taskService.update(this.MotherList).then(() => this.selectedTask = null);
   }
 
 
@@ -166,39 +161,38 @@ export class TaskDisplayComponent implements OnInit{
  *@this { TaskDisplayComponent }
  *@return { void }
  */
-  checkDone(num : number): void{
+  checkDone(num: number): void {
 
-    var listIsDone : boolean = true;
-    if(num == 1){ //the 1 means that the function has been called when adding a
-      //task to the list, the List cannot be done in that case
+    let listIsDone = true;
+    if (num === 1) { // the 1 means that the function has been called when adding a
+      // task to the list, the List cannot be done in that case
       this.MotherList.done = false;
       this.taskService.update(this.MotherList).then();
     }
 
-    //if there is no tasks in the list, then we decide that the list is not done
-      if(this.tasks.length == 0){
-        listIsDone=false;
+    // if there is no tasks in the list, then we decide that the list is not done
+      if (this.tasks.length === 0) {
+        listIsDone = false;
       }
 
-      //We look for each tasks in the list, if one task is not done, then the
-      //list is done, and we put the var at "listIsDone" at false
-      for(var i =0; i<this.tasks.length; i++){
-        if(this.tasks[i].done == false){
+      // We look for each tasks in the list, if one task is not done, then the
+      // list is done, and we put the var at "listIsDone" at false
+      for (let i = 0; i < this.tasks.length; i++) {
+        if (this.tasks[i].done === false) {
           listIsDone = false;
         }
-        console.log(this.tasks[i].done)
+        console.log(this.tasks[i].done);
 
       }
 
-      //To be instantaneous, because the function will receive the value
-      //from the checkbox before it was clicked, the function will not receive the
-      //current value that the user is trying to set, we change the value of listIsDone
-      //to the opposite value (the one that the User wants to set)
-      if(listIsDone==true){
+      // To be instantaneous, because the function will receive the value
+      // from the checkbox before it was clicked, the function will not receive the
+      // current value that the user is trying to set, we change the value of listIsDone
+      // to the opposite value (the one that the User wants to set)
+      if (listIsDone === true) {
         this.MotherList.done = true;
         this.taskService.update(this.MotherList);
-      }
-      else{
+      }else {
         this.MotherList.done = false;
         this.taskService.update(this.MotherList);
       }
@@ -207,16 +201,15 @@ export class TaskDisplayComponent implements OnInit{
     }
 
 
-    findPlaceTask(idTask : number): number{
-      var i=0; //we look for the task having the id, idTask
-      while(i<this.MotherList.tasks.length && idTask != this.MotherList.tasks[i].id){
-        i++
+    findPlaceTask(idTask: number): number {
+      let i = 0; // we look for the task having the id, idTask
+      while (i < this.MotherList.tasks.length && idTask !== this.MotherList.tasks[i].id) {
+        i++;
       }
-      if(i>this.MotherList.tasks.length){ //if we didn't find it, we return a negative value
+      if (i > this.MotherList.tasks.length) { // if we didn't find it, we return a negative value
         return -1;
-      }
-      else{
-        return i; //if we did, we return its place in the tab
+      }else {
+        return i; // if we did, we return its place in the tab
       }
     }
 

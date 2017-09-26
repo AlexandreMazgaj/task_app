@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'list',
+  selector: 'app-list-display',
   templateUrl : './list_display.component.html',
   styleUrls: ['./list_display.component.css']
 })
@@ -28,7 +28,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
   *@this { ListDisplayComponent }
   *@return { void }
   */
-  onSelect(list : TaskManager){
+  onSelect(list: TaskManager) {
     this.selectedManager = list;
     this.setCurrentList(list);
   }
@@ -40,9 +40,9 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
   *@return { void }
   */
 
-  getLists() : void{
+  getLists(): void {
     this.taskService.getLists().then(list => {this.lists = list;
-      if(this.lists.length>0){
+      if (this.lists.length > 0) {
         this.onSelect(this.lists[0]);
       }
     });
@@ -54,13 +54,13 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
   *@this { ListDisplayComponent }
   *@return { void }
 */
-  ngOnInit() : void{
+  ngOnInit(): void {
     this.lists = new Array<TaskManager>();
     this.getLists();
   }
 
 
-ngAfterViewInit(): void{
+ngAfterViewInit(): void {
   this.cd.detectChanges();
 }
 
@@ -69,9 +69,9 @@ ngAfterViewInit(): void{
   *@this { ListDisplayComponent }
   *@return { void }
 */
-  deleteList(list : TaskManager) : void{
+  deleteList(list: TaskManager): void {
     this.taskService.deleteList(list.id).then(() => {this.lists = this.lists.filter(l => l !== list);
-      if(this.selectedManager === list) { this.selectedManager=null;}});
+      if (this.selectedManager === list) { this.selectedManager = null; }});
       console.log('probleme listdisplay');
   }
 
@@ -85,8 +85,8 @@ addList(name: string): void {
   if (!name) { return; }
 
   this.taskService.createList(name)
-  .then(list => {list.done = false; list.tasks=new Array<Task>(); this.lists
-    .push(list); this.onSelect(this.lists[this.lists.length-1])});
+  .then(list => {list.done = false; list.tasks = new Array<Task>(); this.lists
+    .push(list); this.onSelect(this.lists[this.lists.length - 1] ); });
 }
 
 

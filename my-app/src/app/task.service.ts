@@ -2,30 +2,30 @@ import { Task } from './task';
 import { TaskManager } from './taskManager';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class TaskService{
+export class TaskService {
 
-constructor(private http : Http){}
+constructor(private http: Http) {}
 
   private Lurl = 'api/list';
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  private currentList : Subject<TaskManager> = new BehaviorSubject<TaskManager>(null);
+  private currentList: Subject<TaskManager> = new BehaviorSubject<TaskManager>(null);
 
 
-//gestion des listes de listes de Tache
+// gestion des listes de listes de Tache
 
 /**
   *Will get the lists from the Db, the lists will return in the form of a Promise
   *@this { TaskService }
   *@return { Promise<TaskManager[]> }
 */
-  public getLists(): Promise<TaskManager[]>{
-    return this.http.get(this.Lurl).toPromise().then(res => res.json().data as TaskManager[]) //we ask the server to give us all the lists
+  public getLists(): Promise<TaskManager[]> {
+    return this.http.get(this.Lurl).toPromise().then(res => res.json().data as TaskManager[]) // we ask the server to give us all the lists
     .catch(this.handleError);
   }
 
@@ -36,7 +36,7 @@ constructor(private http : Http){}
   *@this { TaskService }
   *@return { Promise<TaskManager }
 */
-getList(id : number): Promise<TaskManager>{
+getList(id: number): Promise<TaskManager> {
   const url = `${this.Lurl}/${id}`;
   return this.http.get(url).toPromise().then(res => res.json().data as TaskManager)
   .catch(this.handleError);
@@ -49,12 +49,12 @@ getList(id : number): Promise<TaskManager>{
   *@this { TaskService }
   *@return { Promise<void> }
 */
-  deleteList(id : number): Promise<void>{
+  deleteList(id: number): Promise<void> {
     const url = `${this.Lurl}/${id}`;
 
-    return this.http.delete(url, {headers: this.headers})  //this function delete the list with the id given in parameter
+    return this.http.delete(url, {headers: this.headers})  // this function delete the list with the id given in parameter
     .toPromise()
-    .then(()=> null).catch(this.handleError);
+    .then(() => null).catch(this.handleError);
   }
 
 
@@ -63,10 +63,10 @@ getList(id : number): Promise<TaskManager>{
   *@this { TaskService }
   *@return { Promise<TaskManager }
 */
-  createList(name : string): Promise<TaskManager>{
+  createList(name: string): Promise<TaskManager> {
     return this.http.post(this.Lurl, JSON.stringify({name : name}), {headers: this.headers})
     .toPromise()
-    .then(res => res.json().data as TaskManager) //create a new list with the name
+    .then(res => res.json().data as TaskManager) // create a new list with the name
     .catch(this.handleError);
   }
 
@@ -75,38 +75,38 @@ getList(id : number): Promise<TaskManager>{
   *@this { TaskService }
   *@return { Promise<Task> }
 */
-  update(list : TaskManager): Promise<void>{
-    const url  = `${this.Lurl}/${list.id}`;  //most used function when dealing with tasks
+  update(list: TaskManager): Promise<void> {
+    const url  = `${this.Lurl}/${list.id}`;  // most used function when dealing with tasks
     return this.http.put(url, JSON.stringify(list), {headers: this.headers})
     .toPromise().then(() => list).catch(this.handleError);
   }
 
 
 
-  //gestion des listes de Taches
+  // gestion des listes de Taches
 
-  getTasks(idL : number): Promise<Task[]>{  //to get all the tasks from a particular list
-    const url = `${this.Lurl}/${idL}/tasks`
+  getTasks(idL: number): Promise<Task[]> {  // to get all the tasks from a particular list
+    const url = `${this.Lurl}/${idL}/tasks`;
     return this.http.get(url).toPromise().then(res => res.json().data as Task[])
     .catch(this.handleError);
   }
 
 
-  getTask(idt : number, idL: number): Promise<Task> {
+  getTask(idt: number, idL: number): Promise<Task> {
     const url = `${this.Lurl}/${idL}/tasks/${idt}`;
-    return this.http.get(url).toPromise().then(res=>res.json().data as Task)
+    return this.http.get(url).toPromise().then(res => res.json().data as Task)
     .catch(this.handleError);
   }
 
 
-//gestion de la liste courante
+// gestion de la liste courante
 
 /**
   *return the currentList as an Observable
   *@this { TaskService }
   *@return { Observable<TaskManager }
 */
-getCurrentList() : Observable<TaskManager>{
+getCurrentList(): Observable<TaskManager> {
   return this.currentList.asObservable();
 }
 
@@ -116,19 +116,19 @@ getCurrentList() : Observable<TaskManager>{
   *@this { TaskService }
   @return { void }
 */
-setCurrentList(list : TaskManager) : void{
+setCurrentList(list: TaskManager): void {
   this.currentList.next(list);
 }
 
 
 
-//To handle any Type of error with the requests
+// To handle any Type of error with the requests
 /**
   *Handle any types of error with the Db
   *@this { TaskService }
   *@return { Promise<any> }
 */
-private handleError( error : any ): Promise<any>{
+private handleError( error: any ): Promise<any> {
    console.error('An error occured', error);
    return Promise.reject(error.message || error);
   }

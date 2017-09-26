@@ -46,7 +46,7 @@
           in the "ul" tag or it will display the tasks of all the lists
       -->
       <div id="diplay" *ngIf="selectedManager==list">
-          <display id="display" [MotherList]="selectedManager" tabindex="2"></display>
+          <app-task-display id="display" [MotherList]="selectedManager" tabindex="2"></app-task-display>
       </div>
     </li>
     <!--This div is used to display the input button to create a new TaskManager-->
@@ -66,7 +66,7 @@
   the attribute "currentList" is binded to the attribute "selectedManager"
 -->
 <footer *ngIf="selectedManager">
-  <current></current>
+  <app-current-display></app-current-display>
 </footer>
 
 </body>
