@@ -1,4 +1,5 @@
 import { Task } from './task';
+import { Class } from '@angular/core';
 
 export class TaskManager {
   public constructor(

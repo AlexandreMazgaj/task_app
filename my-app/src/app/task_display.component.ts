@@ -16,6 +16,9 @@ export class TaskDisplayComponent implements OnInit {
 
   constructor(private taskService: TaskService, private router: Router) {}
 
+// Properties of the component
+// ---------------------------
+
   tasks: Task[] = [];  // list of tasks to be displayed
 
   @Input() MotherList: TaskManager;  // the TaskManager that requested the display of its tasks
@@ -23,14 +26,22 @@ export class TaskDisplayComponent implements OnInit {
   selectedTask: Task;  // the task the user selected with the cursor
 
 
+
+// Functions used for the component
+// --------------------------------
+
 /**
  * Bind the user's click to the attribute selectedTask
  *@this { TaskDisplayComponent }
+ *@param task
  *@return { void }
 */
   onSelect(task: Task): void {
     this.selectedTask = task;
   }
+
+
+
 
 /**
  *to get all the tasks from a list
@@ -41,6 +52,7 @@ export class TaskDisplayComponent implements OnInit {
   getTasks(idL: number): void {
     this.taskService.getList(idL).then(list => this.tasks = list.tasks);
   }
+
 
 
 /**
@@ -55,6 +67,7 @@ export class TaskDisplayComponent implements OnInit {
 
 
 
+
 /**
  *Delete a task from the list of task
  *@this { TaskDisplayComponent }
@@ -63,17 +76,20 @@ export class TaskDisplayComponent implements OnInit {
   deleteTask(task: Task): void {
     const i = this.findPlaceTask(task.id);
     if (i < 0) {
-      return;
+      return; // if we didn't find the task, we stop the function
     }else {
-      this.MotherList.tasks.splice(i, 1); // if we found the task, we remove it from the TaskManager
-      this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks
+
+      this.removeTaskFromTheMotherList(i); // if we found the task, we remove it from the TaskManager
+      this.taskService.update(this.MotherList).then(() => {this.tasks = this.tasks // first we update the mother list in the db
         .filter(t => t !== task);  // then we update the list of task to be displayed and the TaskManager
 
         if (this.selectedTask === task) { this.selectedTask = null; }
         this.checkDone(0); // we check if this affects the list of tasks that are done
+
       });
     }
   }
+
 
 
 /**
@@ -83,8 +99,6 @@ export class TaskDisplayComponent implements OnInit {
  */
   add(name: string): void {
     const self = this;
-    console.log(this);
-
 
     if (this.tasks === undefined) {
       this.tasks = new Array<Task>(); // to fix a bug, if tasks is undefined, we create it
@@ -95,22 +109,25 @@ export class TaskDisplayComponent implements OnInit {
 
     let newT: Task;
 
-    if (this.MotherList.tasks.length === 0) {
-      newT = new Task(this.MotherList.tasks.length, name, false); // this test is to be able to put
+    if (this.numberOfTaskOfTheMotherList() === 0) {
+      newT = new Task(0 , name, false); // this test is to be able to put
     }else {                         // the new task at the next available place
-      newT = new Task(this.MotherList.tasks[this.MotherList.tasks.length - 1].id + 1, name, false);
+      newT = new Task(this.lastTaskOfTheMotherList().id + 1, name, false);
     }  // if there is already a task in the array,
 
     const newTask = newT;
-    this.MotherList.tasks.push(newTask);
-    this.tasks.push(this.MotherList.tasks[this.MotherList.tasks.length - 1]);
+
+    this.addTaskToTheMotherList(newTask);
+
+    this.tasks.push(this.lastTaskOfTheMotherList());
 
     this.taskService.update(this.MotherList).then(list => { this.selectedTask = null;
       this.checkDone(1);
-      console.log('length', this.MotherList.tasks.length);
         // then we update the TaskManager, and we see if this affects
     });                   // the list of tasks that are done
   }
+
+
 
 
 /**
@@ -124,10 +141,11 @@ export class TaskDisplayComponent implements OnInit {
       return;
     }else {
       // this function is only used to save the new name of the task we are editing
-      this.MotherList.tasks[i].name = task.name;
+      this.findTaskFromTheMotherList(i).name = task.name;
     }
     this.taskService.update(this.MotherList).then(() => this.selectedTask = null );
   }
+
 
 
 
@@ -149,11 +167,13 @@ export class TaskDisplayComponent implements OnInit {
     if (i < 0) {
       return;
     }else {
-      this.MotherList.tasks[i].done = task.done;
+      this.findTaskFromTheMotherList(i).done = task.done;
     }
 
     this.taskService.update(this.MotherList).then(() => this.selectedTask = null);
   }
+
+
 
 
 /**
@@ -201,6 +221,16 @@ export class TaskDisplayComponent implements OnInit {
     }
 
 
+
+// Utility functions, used to make the code more readable
+// ------------------------------------------------------
+
+/**
+ * find the place in the Array of the MotherList of the task having an id given in paramater
+ * @this { TaskDisplayComponent }
+ * @return { number }
+ * @param idTask
+ */
     findPlaceTask(idTask: number): number {
       let i = 0; // we look for the task having the id, idTask
       while (i < this.MotherList.tasks.length && idTask !== this.MotherList.tasks[i].id) {
@@ -212,5 +242,69 @@ export class TaskDisplayComponent implements OnInit {
         return i; // if we did, we return its place in the tab
       }
     }
+
+
+     /**
+   * add a Task at the end to the MotherList
+   * @param task
+   * @this { TaskDisplayComponent }
+   * @return { void }
+   */
+  addTaskToTheMotherList(task: Task): void {
+    this.MotherList.tasks.push(task);
+  }
+
+  /**
+   * return the number of task of the MotherList
+   * @this { TaskDisplayComponent }
+   * @return { number }
+   */
+  numberOfTaskOfTheMotherList(): number {
+    return this.MotherList.tasks.length;
+  }
+
+
+  /**
+   * return the last Task from the Array of task of the MotherList
+   * @this { TaskDisplayComponent }
+   * @return { Task }
+   */
+  lastTaskOfTheMotherList(): Task {
+    return this.MotherList.tasks[this.numberOfTaskOfTheMotherList() - 1];
+  }
+
+  /**
+   * remove a Task from the MotherList at the place given in parameter
+   * @param i
+   * @this { TaskDisplayComponent }
+   * @return { void }
+   */
+  removeTaskFromTheMotherList(i: number): void {
+    this.MotherList.tasks.splice(i, 1);
+  }
+
+  /**
+   * return the Task from the MotherList at the place given in parameter
+   * @this { TaskDisplayComponent }
+   * @param i
+   * @return { Task }
+   */
+  findTaskFromTheMotherList(i: number): Task {
+      return this.MotherList.tasks[i];
+  }
+
+
+  occurenceOfName(name: string): number {
+    let count = 0;
+    for (let i = 0; i < this.numberOfTaskOfTheMotherList(); i++) {
+      if (this.findTaskFromTheMotherList(i).name === name || this.findTaskFromTheMotherList(i).name.indexOf(name + 'n.') >= 0) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+
+  // faire la fonction qui permet d update le nom en fonction du nombre d occurence
 
 }

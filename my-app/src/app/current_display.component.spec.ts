@@ -32,6 +32,7 @@ describe('CurrentDisplayComponent', () => {
   let fixture: ComponentFixture<CurrentDisplayComponent>;
   let mokCurrentList: TaskManager;
   let mokCurrentTask: Task;
+  let mokCurrentTask2: Task;
   let de: DebugElement;
 
   beforeEach(async(() => {
@@ -58,9 +59,11 @@ describe('CurrentDisplayComponent', () => {
     component = fixture.componentInstance;
     de = fixture.debugElement;
     // to set the input
-    mokCurrentTask = new Task(1, 'task1', false);
+    mokCurrentTask = new Task(1, 'task1', false);  // we start by creating mock Tasks to test the component
+    mokCurrentTask2 = new Task(2, 'tasks2', true);
     mokCurrentList = new TaskManager(1, 'list1', false, Array<Task>());
-    mokCurrentList.tasks[0] = mokCurrentTask;
+    mokCurrentList.tasks.push(mokCurrentTask);
+    mokCurrentList.tasks.push(mokCurrentTask2);
     component.currentList = mokCurrentList;
     fixture.detectChanges();
   });
@@ -73,5 +76,10 @@ describe('CurrentDisplayComponent', () => {
     const el = de.nativeElement.querySelector('h3');
     expect(el.innerText).toContain('list1');
   });
+
+ /* it('should give the number of tasks that are done when initialized', () => {
+
+  });*/
+
 
 });

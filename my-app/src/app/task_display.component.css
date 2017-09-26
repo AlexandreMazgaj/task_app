@@ -7,6 +7,10 @@ h2 {
   display : none;
 }
 
+.selected {
+  background-color:#C99F57;
+}
+
 .selected input{
   display : inline;
   font-family: "Permanent Marker", arial sans-serif;
@@ -57,7 +61,7 @@ input {
   font-family : "Permanent Marker", arial sans-serif;
   font-variant: small-caps;
   font-size : 1.2em;
-  background-color: #F0BD67;
+  background-color: inherit;
   border : none;
   border-bottom : 2px solid #000000;
   border-radius : 0;

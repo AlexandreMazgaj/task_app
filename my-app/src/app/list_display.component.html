@@ -14,11 +14,11 @@
           true, this will diplay the input button, but only for the TaskManager
           selected
       -->
-        <div *ngIf="isUserEditing==true && list == selectedManager">
-          <input id="inputEditName" class="edit" [(ngModel)]="list.name"
+        <div *ngIf="list == managerEdited">
+          <input id="inputEditName" class="edit" #listName [(ngModel)]="list.name"
             type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" 
             placeholder="{{list.name}}">
-          <button id="buttsaveL" class="btn btn-circle positive" (click)="saveListName()">
+          <button id="buttsaveL" class="btn btn-circle positive" (click)="saveListName(listName.value)">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
 
@@ -27,7 +27,7 @@
         <!--If the "isUserEditing" attribute is set to false, the name is displayed
 
       -->
-        <div class="editingFalse" *ngIf="isUserEditing == false || list != selectedManager">
+        <div class="editingFalse" *ngIf="list != managerEdited">
           <!-- If the list is not done, we display the name,
             if it is done, the name is strokethrough
         -->
@@ -39,7 +39,7 @@
           <button id="buttonTrash" class="btn negative btn-circle" (click)="deleteList(list)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button id="editingTrue" class="btn positive btn-circle" (click)="isUserEditing=true;">
+          <button id="editingTrue" class="btn positive btn-circle" (click)="isUserEditing=true; setManagerEdited(list);">
             <span class="glyphicon glyphicon-pencil"></span>
           </button></div>
         <!--This div is used to display the list of tasks, it needs to stay
