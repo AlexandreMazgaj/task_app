@@ -27,7 +27,7 @@ h2 {
 
 #licheck{
   padding-top: 50px;
-  padding-bottm: 6px;
+  padding-bottom: 6px;
 }
 
 
@@ -46,6 +46,7 @@ li:hover{
   padding : 12.5px;
 
 }
+
 
 input {
   font-family : "Permanent Marker", arial sans-serif;
@@ -108,4 +109,17 @@ body{
 
 ul li .butt #deleteTask{
 
+}
+
+#taskList {
+
+}
+
+
+#ulc li [type="checkbox"]{
+  
+}
+
+#buttsave{
+  
 }

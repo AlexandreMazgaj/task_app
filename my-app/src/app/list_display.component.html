@@ -6,14 +6,18 @@
       You can select the TaskManager with the "enter" key
     -->
     <div *ngIf="lists != undefined">
-    <li *ngFor="let list of lists" [class.selected]="list === selectedManager" (click)="onSelect(list)" (keyup.enter)="onSelect(list)" tabindex="1">
+    <li *ngFor="let list of lists" [class.selected]="list === selectedManager" 
+      (click)="onSelect(list)" 
+      (keyup.enter)="onSelect(list)" tabindex="1">
 
         <!-- If the edit button is clicked, the attribute "isUserEditing" will be set to
           true, this will diplay the input button, but only for the TaskManager
           selected
       -->
         <div *ngIf="isUserEditing==true && list == selectedManager">
-          <input id="inputEditName" class="edit" [(ngModel)]="list.name" type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" placeholder="{{list.name}}">
+          <input id="inputEditName" class="edit" [(ngModel)]="list.name"
+            type="text" onkeypress="if (event.which==13) document.getElementById('buttsaveL').click()" 
+            placeholder="{{list.name}}">
           <button id="buttsaveL" class="btn btn-circle positive" (click)="saveListName()">
               <span class="glyphicon glyphicon-pencil"></span>
           </button>
@@ -27,7 +31,7 @@
           <!-- If the list is not done, we display the name,
             if it is done, the name is strokethrough
         -->
-          <div *ngIf="list.done == false" class="divNotDel">{{list.name}}</div>
+          <div id="divNotDel" *ngIf="list.done == false" class="divNotDel">{{list.name}}</div>
         <div *ngIf="list.done != false">
           <del><div id="divdel">{{list.name}}</div></del>
         </div>
@@ -47,7 +51,9 @@
     </li>
     <!--This div is used to display the input button to create a new TaskManager-->
     <li class="input">
-      <input id="inputL" #listName class="input-md" type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" placeholder="new list of task" tabindex="3">
+      <input id="inputL" #listName class="input-md" 
+        type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" 
+        placeholder="new list of task" tabindex="3">
       <button id="addL" class="btn positive btn-circle" (click)="addList(listName.value); listName.value='';">
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>

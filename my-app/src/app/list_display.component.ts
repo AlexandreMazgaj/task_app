@@ -12,15 +12,15 @@ import { Router } from '@angular/router';
 })
 
 
-export class ListDisplayComponent implements OnInit, AfterViewInit{
+export class ListDisplayComponent implements OnInit, AfterViewInit {
 
-  constructor(private taskService : TaskService, private router : Router, private cd : ChangeDetectorRef){}
+  constructor(private taskService: TaskService, private router: Router, private cd: ChangeDetectorRef) {}
 
-  lists : TaskManager[];
+  lists: TaskManager[];
 
-  isUserEditing : boolean = false; //to know if the name of the list is being edited
+  isUserEditing = false; // to know if the name of the list is being edited
 
-  selectedManager : TaskManager;
+  selectedManager: TaskManager;
 
 
 /**
@@ -72,7 +72,7 @@ ngAfterViewInit(): void{
   deleteList(list : TaskManager) : void{
     this.taskService.deleteList(list.id).then(() => {this.lists = this.lists.filter(l => l !== list);
       if(this.selectedManager === list) { this.selectedManager=null;}});
-      console.log("probleme listdisplay");
+      console.log('probleme listdisplay');
   }
 
 /**
@@ -80,9 +80,9 @@ ngAfterViewInit(): void{
   *@this { ListDisplayComponent }
   *@return { void }
 */
-addList(name : string): void{
+addList(name: string): void {
   name = name.trim();
-  if(!name) { return; }
+  if (!name) { return; }
 
   this.taskService.createList(name)
   .then(list => {list.done = false; list.tasks=new Array<Task>(); this.lists
@@ -95,12 +95,20 @@ addList(name : string): void{
   *@this { ListDisplayComponent }
   *@return { void }
 */
-saveListName(): void{
+saveListName(listName: string): void {
+
   this.taskService.update(this.selectedManager).then();
   this.isUserEditing = false;
+
 }
 
-setCurrentList(list : TaskManager): void{
+
+/**
+  *send the currentList to the service
+  *@this { ListDisplayComponent }
+  *@return { void }
+*/
+setCurrentList(list: TaskManager): void {
   this.taskService.setCurrentList(list);
 }
 

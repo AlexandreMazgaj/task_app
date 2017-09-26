@@ -101,12 +101,22 @@ getList(id : number): Promise<TaskManager>{
 
 //gestion de la liste courante
 
-
-getCurrentList(){
+/**
+  *return the currentList as an Observable
+  *@this { TaskService }
+  *@return { Observable<TaskManager }
+*/
+getCurrentList() : Observable<TaskManager>{
   return this.currentList.asObservable();
 }
 
-setCurrentList(list : TaskManager){
+
+/**
+  *send the currentList to the subscribers
+  *@this { TaskService }
+  @return { void }
+*/
+setCurrentList(list : TaskManager) : void{
   this.currentList.next(list);
 }
 
