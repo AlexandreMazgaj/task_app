@@ -25,6 +25,8 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
 
   managerEdited: TaskManager;  // to know which TaskManager is being edited
 
+  previousName: string; // to save the previous name of a TaskManager that is being edited
+
 
 
 // Functions used by the component to manage tasks
@@ -38,6 +40,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
   */
   onSelect(list: TaskManager) {
     this.selectedManager = list;
+    this.previousName = list.name;
     this.setCurrentList(list); // we send to the service which list is the current one (the one selected)
   }
 
@@ -109,6 +112,7 @@ addList(name: string): void {
   .then(list => {list.done = false; list.tasks = new Array<Task>();
     this.lists.push(list); // we add the new list to the lists
     this.onSelect(this.lastList()); // then we select the list newly created
+    console.log('ca a push normalement', this.lastList());
   });
 }
 
@@ -126,7 +130,11 @@ saveListName(listName: string): void {
   if (!listName) {
     return;
   }
-  listName = this.updateNameToNumberOfOccurence(listName, 1); // The one is to tell the function that the name is being edited
+  // we check if task's name has been changed, if not, we don't make it go through the function that update the name
+  // thanks to the number of occurences, or it will mess up the previous settings
+  if (listName !== this.previousName) {
+    listName = this.updateNameToNumberOfOccurence(listName, 1); // The one is to tell the function that the name is being edited
+  }
 
   this.taskService.update(this.selectedManager).then(() => {
     this.findList(this.getPlaceListInArray(this.selectedManager.id)).name = listName;

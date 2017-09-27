@@ -23,19 +23,27 @@ import { InMemoryDataService } from './in-memory-data.service';
 import {APP_BASE_HREF} from '@angular/common';
 
 
+
+
 describe('TaskDisplayComponent', () => {
+  // fixture and component
   let component: TaskDisplayComponent;
   let fixture: ComponentFixture<TaskDisplayComponent>;
+  let de: DebugElement;
+
+  // Service
   let taskService: TaskService;
+
+  // mock data
   let mokList: TaskManager;
   let mokArrayTask: Array<Task>;
   let mokTask: Task;
   let mokArray: Array<TaskManager>;
-  let de: DebugElement;
-  let spy: any;
+
+
+  // Spies
   let spyGetT: any;
   let spyUpdate: any;
-  // let spyAdd: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,6 +65,7 @@ describe('TaskDisplayComponent', () => {
   }));
 
   beforeEach(() => {
+    // This is used to set up mock data for the test, we create mock Tasks, and mock TasksManager
     mokTask = new Task(1, 'task1', false);
     mokArrayTask = new Array<Task>();
     mokArrayTask[0] = mokTask;
@@ -64,36 +73,44 @@ describe('TaskDisplayComponent', () => {
     mokArray = new Array<TaskManager>();
     mokArray[0] = mokList;
 
+    // This is to set up the test fixture, debug element and service
     fixture = TestBed.createComponent(TaskDisplayComponent);
     de = fixture.debugElement;
+    taskService = de.injector.get(TaskService);
     component = fixture.componentInstance;
-    taskService = TestBed.get(TaskService);
     component.MotherList = mokList;
-    spy = spyOn(taskService, 'getLists').and.returnValue(Promise.resolve(mokArray));
+
+    // This is to set up the spies
     spyGetT = spyOn(component, 'getTasks').and.callFake(() => {
       component.tasks = mokArrayTask;
     });
     spyUpdate = spyOn(taskService, 'update').and.returnValue(Promise.resolve(null));
 
-    // spyAdd = spyOn(component, 'add').and.returnValue(null);
+    // Before each spec, we wait before there is changes
     fixture.detectChanges();
   });
+
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+
+
   it('should call "getTasks" when initialized', () => {
-    expect(spyGetT.calls.count()).toEqual(1);
+    expect(component.getTasks).toHaveBeenCalled();
   });
 
-  it('should get Tasks when initialized', async(() => {
-      const mokArrayTask2 = new Array<Task>();
 
+
+  it('should get Tasks when initialized', async(() => {
       fixture.whenStable().then(() => {
         expect(component.tasks).toBe(mokArrayTask);
       });
   }));
+
+
 
   it('should show task when initialized', async(() => {
       fixture.whenStable().then(() => {
@@ -103,27 +120,36 @@ describe('TaskDisplayComponent', () => {
   }));
 
 
-  it('should add a task when the button "add" is clicked', async(() => {
-      const input = de.nativeElement.querySelector('#inputNew');
-      input.value = 'Task2';
-      const button = de.query(By.css('#buttnew')).nativeElement;
-      button.click();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        // expect(spyAdd.calls.count()).toBe(0);
-        component.tasks.pop();  // the test adds the tasks from this.tasks and the tasks from this.MotherList.tasks but not the actual app
-        expect(component.tasks.length).toEqual(2);
-        expect(component.tasks[1].name).toBe('Task2');
-      });
-    }));
 
-    it('should delete a task when the function "deleteTask" is called', async(() => {
-        component.deleteTask(mokTask);
-        fixture.whenStable().then(() => {
-          expect(component.tasks.length).toEqual(0);
-        });
+  it('should add a Task when the add function is called', () => {
+      // This is to see if the number of tasks increase
+      const previousNumberOfTask = component.numberOfTaskOfTheMotherList();
+
+      component.add('newTask');
+
+      expect(component.numberOfTaskOfTheMotherList()).toBeGreaterThan(previousNumberOfTask);
+      expect(component.tasks[1].name).toBe('newTask');
+  });
+
+
+
+  it('should delete a task when the function "deleteTask" is called', async(() => {
+      component.deleteTask(mokTask);
+      fixture.whenStable().then(() => {
+        expect(component.numberOfTaskOfTheMotherList()).toEqual(0);
+      });
   }));
 
+
+  it('should add a task with a name modified when the name already exists', async(() => {
+      component.add('new');
+      component.add('new');
+
+      fixture.whenStable().then(() => {
+          expect(component.tasks[3].name).not.toBe('new');
+          expect(component.tasks[3].name).toBe('new n.2');
+      });
+  }));
 
 
 });

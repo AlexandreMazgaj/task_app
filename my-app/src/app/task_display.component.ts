@@ -34,7 +34,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  * Bind the user's click to the attribute selectedTask
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@param task
  *@return { void }
 */
@@ -57,7 +57,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *to get all the tasks from a list
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@param { number }
  *@return { void }
 */
@@ -69,7 +69,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *when the class is initialized, we get the tasks from the list
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@return { void }
 */
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Delete a task from the list of task
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  @return { void }
 */
   deleteTask(task: Task): void {
@@ -106,7 +106,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *add a task with name to the list of task
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@return { void }
  */
   add(name: string): void {
@@ -146,7 +146,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Save the name of a task that has been updated
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  @return { void }
  */
   save(task: Task): void {
@@ -160,10 +160,14 @@ export class TaskDisplayComponent implements OnInit {
     if (i < 0) {
       return;
     }else {
-      // If the task's name already exists, we modify the name
-      task.name = this.updateNameToNumberOfOccurence(task.name, 1);
-      // this function is only used to save the new name of the task we are editing
-      this.findTaskFromTheMotherList(i).name = task.name;
+      // we check if task's name has been changed, if not, we don't make it go through the function that update the name
+      // thanks to the number of occurences, or it will mess up the previous settings
+      if (task.name !== this.previousName) {
+        // If the task's name already exists, we modify the name
+        task.name = this.updateNameToNumberOfOccurence(task.name, 1);
+        // this function is only used to save the new name of the task we are editing
+        this.findTaskFromTheMotherList(i).name = task.name;
+      }
     }
     this.taskService.update(this.MotherList).then(() => this.selectedTask = null );
   }
@@ -174,7 +178,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Update the "done" attribute in a task and in the db
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@return { void }
  */
   updateDoneTask(task: Task): void {
@@ -201,7 +205,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *check if all the tasks are done or not and affects the list "done" attribute
- *@this { TaskDisplayComponent }
+ *@this TaskDisplayComponent
  *@return { void }
  */
   checkDone(num: number): void {
@@ -253,7 +257,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  * find the place in the Array of the MotherList of the task having an id given in paramater
- * @this { TaskDisplayComponent }
+ * @this TaskDisplayComponent
  * @return { number }
  * @param idTask
  */
@@ -273,7 +277,7 @@ export class TaskDisplayComponent implements OnInit {
      /**
    * add a Task at the end to the MotherList
    * @param task
-   * @this { TaskDisplayComponent }
+   * @this TaskDisplayComponent
    * @return { void }
    */
   addTaskToTheMotherList(task: Task): void {
@@ -282,7 +286,7 @@ export class TaskDisplayComponent implements OnInit {
 
   /**
    * return the number of task of the MotherList
-   * @this { TaskDisplayComponent }
+   * @this TaskDisplayComponent
    * @return { number }
    */
   numberOfTaskOfTheMotherList(): number {
@@ -292,7 +296,7 @@ export class TaskDisplayComponent implements OnInit {
 
   /**
    * return the last Task from the Array of task of the MotherList
-   * @this { TaskDisplayComponent }
+   * @this TaskDisplayComponent
    * @return { Task }
    */
   lastTaskOfTheMotherList(): Task {
@@ -302,7 +306,7 @@ export class TaskDisplayComponent implements OnInit {
   /**
    * remove a Task from the MotherList at the place given in parameter
    * @param i
-   * @this { TaskDisplayComponent }
+   * @this TaskDisplayComponent
    * @return { void }
    */
   removeTaskFromTheMotherList(i: number): void {
@@ -311,7 +315,7 @@ export class TaskDisplayComponent implements OnInit {
 
   /**
    * return the Task from the MotherList at the place given in parameter
-   * @this { TaskDisplayComponent }
+   * @this TaskDisplayComponent
    * @param i
    * @return { Task }
    */

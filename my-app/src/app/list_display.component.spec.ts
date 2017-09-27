@@ -27,31 +27,23 @@ import {APP_BASE_HREF} from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-/*class TaskServiceSpy{
-  testTask = new Task(1, 'task1', false);
-  testTaskManager = new TaskManager(1, 'list1', false, [this.testTask]);
-  testList = [this.testTaskManager];
 
-  getLists = jasmine.createSpy('getLists').and.callFake(
-    () => Promise.resolve(true).then(() => Object.assign({}, this.testList))
-  );
-}
-*/
 
 describe('ListDisplayComponent', () => {
-  //testing requirements
+  // testing requirements
   let component: ListDisplayComponent;
   let fixture: ComponentFixture<ListDisplayComponent>;
-  let taskService : TaskService;
-  let de : DebugElement;
-  //mock data
-  let mokTaskManager : TaskManager;
-  let mokArray : Array<TaskManager>;
-  let mokArray2 : Array<TaskManager>;
-  //spies
-  let spy : any;
-  let spyGet : any;
-//  let hdsSpy : TaskServiceSpy;
+  let taskService: TaskService;
+  let de: DebugElement;
+
+  // Mock data
+  let mokTaskManager: TaskManager;
+  let mokArray: Array<TaskManager>;
+
+  // Spies
+  let spyGet: any;
+  let spyOnSelect: any;
+  let spyCreateByService: any;
 
 
   beforeEach(async(() => {
@@ -68,26 +60,37 @@ describe('ListDisplayComponent', () => {
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule],
-      providers: [{provide : APP_BASE_HREF, useValue:'/'}, TaskService, InMemoryDataService]
+      providers: [{provide : APP_BASE_HREF, useValue: '/'}, TaskService, InMemoryDataService]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+
+    // This is to instentiate mock data that will be used during the tests
     mokTaskManager = new TaskManager(1, 'list1', false, Array<Task>());
     mokArray = new Array<TaskManager>();
     mokArray[0] = mokTaskManager;
 
+    // This is to set up the components used in unit testing
     fixture = TestBed.createComponent(ListDisplayComponent);
     component = fixture.componentInstance;
-
     de = fixture.debugElement;
     taskService = de.injector.get(TaskService) as any;
-  //  hdsSpy = fixture.debugElement.injector.get(TaskService) as any;
-    //spy = spyOn(taskService, "getLists").and.returnValue(Promise.resolve(mokArray)); //fonctionne pour la plupart des tests, sauf pour le dernier
-    spyGet = spyOn(component, "getLists").and.callFake(() => {
+
+    // This is to set up the spy on the function getLists
+    spyGet = spyOn(component, 'getLists').and.callFake(() => {
       component.lists = mokArray;
     });
+    spyOnSelect = spyOn(component, 'onSelect').and.callFake(() => {
+      console.log('ca fait bien on select');
+    });
+    spyCreateByService = spyOn(taskService, 'createList').and.callFake((name: string) => {
+      const list = new TaskManager(2, name, false, Array<Task>());
+      const obs = Observable.of(list);
+      return obs.toPromise();
+    });
+
     fixture.detectChanges();
 
   });
@@ -98,74 +101,74 @@ describe('ListDisplayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have called "getLists"', () => {
+
+
+  it('should have called "getLists" only once', () => {
     expect(spyGet.calls.count()).toBe(1);
   });
+
+
 
   it('should get Lists when initialized', () => {
       expect(component.lists).toBe(mokArray);
   });
 
-  it('should display Lists after being initialized', async(() => {
 
+
+  it('should display Lists after being initialized', async(() => {
     fixture.whenStable().then(() => {
-      fixture.detectChanges();
+      // first we look for the element that should display the name of the list
       const el = de.query(By.css('.editingFalse')).nativeElement;
       expect(el.innerText).toContain('list1');
-    })
+    });
   }));
 
 
   it('should delete a List when the trash button is clicked', async(() => {
+      const previousLength = component.numberOfList();
+      // We wait for the app to be stable
       fixture.whenStable().then(() => {
-        let el = de.nativeElement.querySelector('#buttonTrash');
-        el.click();
+        // We find the delete button
+        const button = de.nativeElement.querySelector('#buttonTrash');
+        button.click();
         fixture.whenStable().then(() => {
+          // After the button is clicked, there should be no list in the Array
+          expect(component.numberOfList()).toBeLessThan(previousLength);
           expect(component.lists.length).toBe(0);
-
         });
       });
   }));
 
 
-  it('should add a List when the add button is clicked', async(() => {
+  it('should add a list when the function addList is called', async(() => {
+    // First we save the number of lists in the component before adding a list
+    const previousLength = component.numberOfList();
+    // Then we add a new list called newList
+    component.addList('newList');
+    // We wait for the component to detect changes
     fixture.detectChanges();
-
-    let input = de.query(By.css('#inputL')).nativeElement;
-    let button = de.query(By.css('#addL')).nativeElement;
-    input.value = 'list2';
-
     fixture.whenStable().then(() => {
-
-      button.click();
-
-      fixture.whenStable().then(() => {
-        expect(component.lists.length).toBe(2);
-        expect(component.lists[1].name).toContain('list2');
-      });
-
+        // If the list was added then the new number of list should be greater than the previous one
+        expect(component.numberOfList()).toBeGreaterThan(previousLength);
+        expect(component.lastList().name).toBe('newList');
     });
   }));
 
 
-  /*it('should show edit the name when the edit button is clicked and a name is entered', async(() => {
-    //fixture.detectChanges();
-
-    let button = de.nativeElement.querySelector('#editingTrue');
-    button.click();
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-    //  let input = de.query(By.css('#inputEditName')).nativeElement;
-      let input = de.nativeElement.querySelector('#inputEditName');
-      //input.value = 'newList';
-      let button2 = de.query(By.css('#saveL')).nativeElement;
+  it('should call the function addList when the button is pushed', async(() => {
+      // first we search the dom element necessary to add a new list
+      const button = de.nativeElement.querySelector('#addL');
+      const input = de.nativeElement.querySelector('#inputL');
+      // We put a value in the input, which will be the name of the new list
+      input.value = 'newList';
       button.click();
-
+      // We wait for the component to process everything
+      fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(component.lists[1]. name).toBe('newList');
+        // Since the only place where the function "create" is called is in "addList"
+        // this means that if "create" is called then "addList" was called
+          expect(spyCreateByService).toHaveBeenCalledWith('newList');
       });
-    });
-  }));*/
+  }));
 
 });

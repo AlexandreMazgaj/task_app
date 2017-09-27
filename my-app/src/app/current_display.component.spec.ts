@@ -28,12 +28,21 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 describe('CurrentDisplayComponent', () => {
+  // Unit Test requirements
   let component: CurrentDisplayComponent;
   let fixture: ComponentFixture<CurrentDisplayComponent>;
+  let de: DebugElement;
+
+  // Mock Data
   let mokCurrentList: TaskManager;
   let mokCurrentTask: Task;
   let mokCurrentTask2: Task;
-  let de: DebugElement;
+
+  // Spies
+  let spyPercentage: any;
+  let spyDone: any;
+  let spyUndone: any;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -55,16 +64,25 @@ describe('CurrentDisplayComponent', () => {
   }));
 
   beforeEach(() => {
+
+    // We instantiate the unit test requirements
     fixture = TestBed.createComponent(CurrentDisplayComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement;
-    // to set the input
-    mokCurrentTask = new Task(1, 'task1', false);  // we start by creating mock Tasks to test the component
+
+    // We instantiate the mock data for the test
+    mokCurrentTask = new Task(1, 'task1', false);
     mokCurrentTask2 = new Task(2, 'tasks2', true);
     mokCurrentList = new TaskManager(1, 'list1', false, Array<Task>());
     mokCurrentList.tasks.push(mokCurrentTask);
     mokCurrentList.tasks.push(mokCurrentTask2);
     component.currentList = mokCurrentList;
+
+    // We instantiate the spies
+    spyDone = spyOn(component, 'getDone').and.returnValue(2);
+    spyUndone = spyOn(component, 'getUnDone').and.returnValue(3);
+    spyPercentage = spyOn(component, 'getPercentageCompleted').and.returnValue(2 / 5);
+
     fixture.detectChanges();
   });
 
@@ -72,14 +90,17 @@ describe('CurrentDisplayComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it ('should call the functions getDone, getUnDone, getPercentageCompleted when initialized', () => {
+      expect(spyDone).toHaveBeenCalled();
+      expect(spyUndone).toHaveBeenCalled();
+      expect(spyPercentage).toHaveBeenCalled();
+  });
+
   it('should display the name of the list when initialized', () => {
+    // First we search for the dom element that should display the name of the current list
     const el = de.nativeElement.querySelector('h3');
     expect(el.innerText).toContain('list1');
   });
-
- /* it('should give the number of tasks that are done when initialized', () => {
-
-  });*/
 
 
 });
