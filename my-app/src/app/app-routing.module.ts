@@ -1,9 +1,9 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { InMemoryDataService } from './in-memory-data.service';
 
-import { ListDisplayComponent } from './list_display.component'
+import { ListDisplayComponent } from './list_display.component';
 
 
 const routes: Routes = [
@@ -16,4 +16,4 @@ const routes: Routes = [
   exports: [ RouterModule ]
 })
 
-export class AppRoutingModule{}
+export class AppRoutingModule {}

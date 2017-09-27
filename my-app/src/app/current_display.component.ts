@@ -12,6 +12,11 @@ import { TaskService } from './task.service';
 
 export class CurrentDisplayComponent implements OnInit, AfterViewInit {
 
+
+
+  // properties of the component
+  // ---------------------------
+
   currentList: TaskManager;
 
   subscription: Subscription;
@@ -20,36 +25,52 @@ export class CurrentDisplayComponent implements OnInit, AfterViewInit {
   numberDone = 0;
   percentageCompleted = 0;
 
+
+
+
+  // functions used by the component
+  // -------------------------------
+
+
   constructor(private cd: ChangeDetectorRef, private currentService: TaskService) {
     this.subscription = this.currentService.getCurrentList().subscribe(current => {this.currentList = current; });
   }
 
+
+
+
   /**
     *it will get all the infos that it needs to display when initialized
-    *@this { CurrentDisplayComponent }
+    *@this CurrentDisplayComponent
     *@return { void }
   */
   ngOnInit(): void {
-    this.getUnDone();
-    this.getDone();
-    this.getPercentageCompleted();
+    this.getUnDone(); // at the initialization, we get the number of tasks that are not done
+    this.getDone(); // the number of tasks that are done
+    this.getPercentageCompleted(); // and the percentage of the two
 
   }
+
+
+
 
   ngAfterViewInit(): void {
     this.cd.detectChanges();
   }
 
+
+
+
 /**
   *it gets the number of tasks that have their attribute "done" set to false
-  *@this { CurrentDisplayComponent }
+  *@this CurrentDisplayComponent
   *@return { number }
 */
   getUnDone(): number {
     let count = 0;
     if (!this.isListEmpty(this.currentList)) {
-      for (let i = 0; i < this.currentList.tasks.length; i++) {
-        if (this.currentList.tasks[i].done === false) {
+      for (let i = 0; i < this.numberOfTaskInCurrentList(); i++) {
+        if (this.currentList.tasks[i].done === false) { // everytime a tasks is not done, we increment the counter
           count++;
         }
       }
@@ -59,37 +80,55 @@ export class CurrentDisplayComponent implements OnInit, AfterViewInit {
     return count; // this.numberUnDone;
   }
 
+
+
+
 /**
   *It gets the number of tasks that has their attribute "done" set to true
-  *@this { CurrentDisplayComponent }
+  *@this CurrentDisplayComponent
   *@return { number }
 */
   getDone(): number {
-    this.numberDone = this.currentList.tasks.length - this.numberUnDone;
+    this.numberDone = this.numberOfTaskInCurrentList() - this.numberUnDone;
     return this.numberDone;
   }
 
+
+
+
 /**
   *It gets the percentage of tasks that has their attribute "done" set to true
-  *@this { CurrentDisplayComponent }
+  *@this CurrentDisplayComponent
   *@return { number }
 */
   getPercentageCompleted(): number {
-    console.log('percentage', this.currentList.tasks.length);
-    if (this.isListEmpty(this.currentList)) {
+    if (this.isListEmpty(this.currentList)) { // if the list is empty, I decided to put the percentage to 0%
       this.percentageCompleted = 0;
     }else {
-      this.percentageCompleted = this.getDone() / this.currentList.tasks.length;
-      this.percentageCompleted *= 100;
+      this.percentageCompleted = this.getDone() / this.numberOfTaskInCurrentList(); // We divide the number of tasks that are done
+      this.percentageCompleted *= 100;                                              // by the number of task in total
     }
 
-    if (this.percentageCompleted === 100) {
+    if (this.percentageCompleted === 100) { // if the percentage of tasks completed is 100 this means the list is done
       this.currentList.done = true;
     }
 
     return this.percentageCompleted;
   }
 
+
+
+// Utility functions used to make the code more readable
+// -----------------------------------------------------
+
+
+
+/**
+ * tell if the list of task is empty or not
+ * @param list
+ * @this CurrentDisplayComponent
+ * @return { boolean }
+ */
   isListEmpty(list: TaskManager): boolean {
     if (list.tasks.length === 0) {
       return true;
@@ -98,4 +137,16 @@ export class CurrentDisplayComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+/**
+ * return the number of task that is in the current list
+ * @this CurrentDisplayComponent
+ * @return { number }
+ */
+  numberOfTaskInCurrentList(): number {
+    return this.currentList.tasks.length;
+  }
+
 }
+
+

@@ -1,7 +1,8 @@
 h1 {
   font-family: "Bungee";
-  color : #ffffff;
-  align-text : center;
+	color : #ffffff;
+	margin-left: 0.2em;
+  /*text-align : center;*/
 }
 
 header {

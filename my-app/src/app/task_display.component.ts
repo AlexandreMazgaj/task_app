@@ -25,6 +25,8 @@ export class TaskDisplayComponent implements OnInit {
 
   selectedTask: Task;  // the task the user selected with the cursor
 
+  previousName: string; // Used to store the name of a task, if the user write something not allowed we use the previous name value
+
 
 
 // Functions used for the component
@@ -37,7 +39,17 @@ export class TaskDisplayComponent implements OnInit {
  *@return { void }
 */
   onSelect(task: Task): void {
+    // We check if the previous selectedTask is undefined and then we check if the it is null
+    // (to see if it is the first task to be selected or if it is a second one just after another task selection)
+    // and finally we check if the user put an empty string as the name of the selected Task
+    if (this.selectedTask !== undefined && this.selectedTask !== null && !this.selectedTask.name) {
+      // if yes, then we put the previous selectedTask's name as its previous name
+      this.selectedTask.name = this.previousName;
+    }
+
     this.selectedTask = task;
+
+    this.previousName = task.name;
   }
 
 
@@ -116,6 +128,8 @@ export class TaskDisplayComponent implements OnInit {
     }  // if there is already a task in the array,
 
     const newTask = newT;
+    // if the name already exists in the mother list, we modify the name
+    newTask.name = this.updateNameToNumberOfOccurence(newTask.name);
 
     this.addTaskToTheMotherList(newTask);
 
@@ -136,15 +150,24 @@ export class TaskDisplayComponent implements OnInit {
  @return { void }
  */
   save(task: Task): void {
+    task.name = task.name.trim();
+    // if the name is an empty string, we don't allow the user to save
+    if (!task.name) {
+      return;
+    }
+
     const i = this.findPlaceTask(task.id);
     if (i < 0) {
       return;
     }else {
+      // If the task's name already exists, we modify the name
+      task.name = this.updateNameToNumberOfOccurence(task.name, 1);
       // this function is only used to save the new name of the task we are editing
       this.findTaskFromTheMotherList(i).name = task.name;
     }
     this.taskService.update(this.MotherList).then(() => this.selectedTask = null );
   }
+
 
 
 
@@ -222,6 +245,9 @@ export class TaskDisplayComponent implements OnInit {
 
 
 
+
+
+
 // Utility functions, used to make the code more readable
 // ------------------------------------------------------
 
@@ -294,10 +320,17 @@ export class TaskDisplayComponent implements OnInit {
   }
 
 
+
+/**
+ * return the number of occurence of the name given in parameter in the list of TaskManager
+ * @param name
+ * @this TaskDisplayComponent
+ * @return { number }
+ */
   occurenceOfName(name: string): number {
     let count = 0;
     for (let i = 0; i < this.numberOfTaskOfTheMotherList(); i++) {
-      if (this.findTaskFromTheMotherList(i).name === name || this.findTaskFromTheMotherList(i).name.indexOf(name + 'n.') >= 0) {
+      if (this.findTaskFromTheMotherList(i).name === name || this.findTaskFromTheMotherList(i).name.indexOf(name + ' n.') >= 0) {
         count++;
       }
     }
@@ -305,6 +338,31 @@ export class TaskDisplayComponent implements OnInit {
   }
 
 
-  // faire la fonction qui permet d update le nom en fonction du nombre d occurence
+
+/**
+ * modify the name given in parameter if it already exists in the list of TaskManager
+ * @param name
+ * @this TaskDisplayComponent
+ * @return { string }
+ */
+  updateNameToNumberOfOccurence(name: string, caller: number = 0): string {
+    // first we count the number of occurences of the name in the list of TaskManager
+    let occurence = this.occurenceOfName(name);
+    if (caller === 1) {
+      occurence--;      // if the function saveName() calls this function, then this means that the name is being edited
+    }                   // We then have to sub 1 occurence, because one of those occurence is the name being edited
+
+    let updateName: string;
+    if (occurence > 0) {
+      // if the name is already there, then we modify it
+      updateName = name + ' n.' + occurence.toString();
+    }else {
+      // if not, then we don't do anything
+      updateName = name;
+    }
+
+    return updateName;
+  }
+
 
 }
