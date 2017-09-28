@@ -141,13 +141,13 @@ describe('ListDisplayComponent', () => {
 
 
   it('should add a list when the function addList is called', async(() => {
-    // First we save the number of lists in the component before adding a list
-    const previousLength = component.numberOfList();
-    // Then we add a new list called newList
-    component.addList('newList');
-    // We wait for the component to detect changes
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
+      // First we save the number of lists in the component before adding a list
+      const previousLength = component.numberOfList();
+      // Then we add a new list called newList
+      component.addList('newList');
+      // We wait for the component to detect changes
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
         // If the list was added then the new number of list should be greater than the previous one
         expect(component.numberOfList()).toBeGreaterThan(previousLength);
         expect(component.lastList().name).toBe('newList');

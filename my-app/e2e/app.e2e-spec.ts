@@ -33,7 +33,7 @@ describe('my-app App', () => {
 
   it('should display zero list when the user click on the delete button', async() => {
     page.navigateTo();
-    const button = element(by.css('#buttonTrash'));
+    const button = page.getButton('#buttonTrash');
     button.click();
     await
 
@@ -44,9 +44,9 @@ describe('my-app App', () => {
 
   it('should display the current list when a list is clicked', async() => {
     page.navigateTo();
-    const nameCurrentList = element(by.css('#h3current'));
+    const nameCurrentList = page.getTextOfElement('#h3current');
     await
-    expect(nameCurrentList.getText()).toBe('list1');
+    expect(nameCurrentList).toBe('list1');
   });
 
   it('should add a task to the list when the add button is clicked', async() => {
