@@ -20,7 +20,7 @@ describe('my-app App', () => {
     page.navigateTo();
     page.addList('shopping list');
     await
-
+    // We count three because there already is the input that is in the list
     expect(page.getListOfList().count()).toBe(3);
   });
 
@@ -36,7 +36,7 @@ describe('my-app App', () => {
     const button = page.getButton('#buttonTrash');
     button.click();
     await
-
+    // This is because the input is in the list that we count 1 even if there is no list
     expect(page.getListOfList().count()).toBe(1);
 
   });
@@ -51,6 +51,7 @@ describe('my-app App', () => {
 
   it('should add a task to the list when the add button is clicked', async() => {
     page.navigateTo();
+    // The function addTask click on the button directly
     page.addTask('buy cake');
     await
 
@@ -72,6 +73,7 @@ describe('my-app App', () => {
 
       const selectedTask = page.getFirstTask();
       await
+      // We click on the task to make the trash button appear
       selectedTask.click();
 
       const buttonDel = page.getButton('#deleteTask');
@@ -89,12 +91,14 @@ describe('my-app App', () => {
       await
 
       checkboxes.each((checkbox) => {
+        // We click on each checkbox
         checkbox.click();
       });
 
       await
 
       checkboxes.each((checkbox) => {
+        // We check for each checkbox if they are true
         expect(checkbox.isSelected()).toBeTruthy();
       });
 
@@ -105,7 +109,7 @@ describe('my-app App', () => {
       page.navigateTo();
       const buttEdit = page.getButton('#editingTrue');
       buttEdit.click();
-
+      // We edit the name of the first list in the app
       page.editListName('edited List');
 
       const buttonSaveEdit = page.getButton('#buttsaveL');
@@ -126,7 +130,7 @@ describe('my-app App', () => {
       const selectedTask = page.getFirstTask();
       await
       selectedTask.click();
-
+      // We edit the name of the task we have just added
       page.editTaskName('edited Task');
 
       const buttSaveEdit = page.getButton('#buttsave');
