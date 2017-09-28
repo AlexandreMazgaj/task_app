@@ -110,10 +110,15 @@ addList(name: string): void {
   name = this.updateNameToNumberOfOccurence(name); // if there is a list called the same, we change the name
 
   this.taskService.createList(name) // we create the list in the db
-  .then(list => {list.done = false; list.tasks = new Array<Task>();
-    this.lists.push(list); // we add the new list to the lists
-    this.onSelect(this.lastList()); // then we select the list newly created
-    console.log('ca a push normalement', this.lastList());
+  .then(list => {
+    // We put the attribute done to false, since the list has just been created, it cannot be done
+    list.done = false;
+    // We instantiate a new Array of Task
+    list.tasks = new Array<Task>();
+    // We add the new list to the lists
+    this.lists.push(list);
+    // Then we select the list newly created
+    this.onSelect(this.lastList());
   });
 }
 
@@ -134,7 +139,8 @@ saveListName(listName: string): void {
   // we check if task's name has been changed, if not, we don't make it go through the function that update the name
   // thanks to the number of occurences, or it will mess up the previous settings
   if (listName !== this.previousName) {
-    listName = this.updateNameToNumberOfOccurence(listName, 1); // The 1 is to tell the function that the name is being edited
+    // The 1 is to tell the function that the name is being edited
+    listName = this.updateNameToNumberOfOccurence(listName, 1);
   }
 
   this.taskService.update(this.selectedManager).then(() => {
