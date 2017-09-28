@@ -69,6 +69,7 @@ export class ListDisplayComponent implements OnInit, AfterViewInit {
   *@return { void }
 */
   ngOnInit(): void {
+    // When initialized we create a new Array of TaskManager and we get the lists from the service
     this.lists = new Array<TaskManager>();
     this.getLists();
   }
@@ -133,11 +134,12 @@ saveListName(listName: string): void {
   // we check if task's name has been changed, if not, we don't make it go through the function that update the name
   // thanks to the number of occurences, or it will mess up the previous settings
   if (listName !== this.previousName) {
-    listName = this.updateNameToNumberOfOccurence(listName, 1); // The one is to tell the function that the name is being edited
+    listName = this.updateNameToNumberOfOccurence(listName, 1); // The 1 is to tell the function that the name is being edited
   }
 
   this.taskService.update(this.selectedManager).then(() => {
-    this.findList(this.getPlaceListInArray(this.selectedManager.id)).name = listName;
+    // this is to get the list in the Array of displayed lists and to give it the new name
+    this.findList(this.getIndexListInArray(this.selectedManager.id)).name = listName;
   });
   this.managerEdited = null;
 
@@ -253,7 +255,7 @@ updateNameToNumberOfOccurence(name: string, caller: number = 0): string {
  * @this ListDisplayComponent
  * @return { number }
  */
-getPlaceListInArray(id: number): number {
+getIndexListInArray(id: number): number {
   let i = 0;
   while (i < this.numberOfList() && this.findList(i).id !== id ) {
     i++;

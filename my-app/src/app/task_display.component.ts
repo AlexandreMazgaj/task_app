@@ -124,15 +124,16 @@ export class TaskDisplayComponent implements OnInit {
     if (this.numberOfTaskOfTheMotherList() === 0) {
       newT = new Task(0 , name, false); // this test is to be able to put
     }else {                         // the new task at the next available place
+      // if there is already a task in the array, we put it in the next available place
       newT = new Task(this.lastTaskOfTheMotherList().id + 1, name, false);
-    }  // if there is already a task in the array,
+    }
 
     const newTask = newT;
     // if the name already exists in the mother list, we modify the name
     newTask.name = this.updateNameToNumberOfOccurence(newTask.name);
-
+    // We add the task to the Mother List
     this.addTaskToTheMotherList(newTask);
-
+    // We then push the Task added to the MotherList to the tasks that are displayed
     this.tasks.push(this.lastTaskOfTheMotherList());
 
     this.taskService.update(this.MotherList).then(list => { this.selectedTask = null;
@@ -334,6 +335,7 @@ export class TaskDisplayComponent implements OnInit {
   occurenceOfName(name: string): number {
     let count = 0;
     for (let i = 0; i < this.numberOfTaskOfTheMotherList(); i++) {
+      // We test to see if the list contains the name or the name + ' n.', for example 'shopping list n.1'
       if (this.findTaskFromTheMotherList(i).name === name || this.findTaskFromTheMotherList(i).name.indexOf(name + ' n.') >= 0) {
         count++;
       }

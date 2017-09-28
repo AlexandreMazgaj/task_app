@@ -70,14 +70,15 @@ export class CurrentDisplayComponent implements OnInit, AfterViewInit {
     let count = 0;
     if (!this.isListEmpty(this.currentList)) {
       for (let i = 0; i < this.numberOfTaskInCurrentList(); i++) {
-        if (this.currentList.tasks[i].done === false) { // everytime a tasks is not done, we increment the counter
+        // everytime a tasks is not done, we increment the counter
+        if (this.currentList.tasks[i].done === false) {
           count++;
         }
       }
     }
     this.numberUnDone = count;
 
-    return count; // this.numberUnDone;
+    return count;
   }
 
 
