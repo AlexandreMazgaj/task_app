@@ -114,7 +114,7 @@ export class CurrentDisplayComponent implements OnInit, AfterViewInit {
       this.currentList.done = true;
     }
 
-    return this.percentageCompleted;
+    return Number(this.percentageCompleted.toFixed(2));
   }
 
 

@@ -82,6 +82,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Delete a task from the list of task
+ *@param task
  *@this TaskDisplayComponent
  @return { void }
 */
@@ -106,6 +107,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *add a task with name to the list of task
+ *@param name
  *@this TaskDisplayComponent
  *@return { void }
  */
@@ -147,8 +149,9 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Save the name of a task that has been updated
+ *@param task
  *@this TaskDisplayComponent
- @return { void }
+ *@return { void }
  */
   save(task: Task): void {
     task.name = task.name.trim();
@@ -179,6 +182,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *Update the "done" attribute in a task and in the db
+ *@param task
  *@this TaskDisplayComponent
  *@return { void }
  */
@@ -206,6 +210,7 @@ export class TaskDisplayComponent implements OnInit {
 
 /**
  *check if all the tasks are done or not and affects the list "done" attribute
+ *@param num
  *@this TaskDisplayComponent
  *@return { void }
  */

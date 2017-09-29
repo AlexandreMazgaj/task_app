@@ -9,12 +9,14 @@ describe('my-app App', () => {
     page = new AppPage();
   });
 
+
   it('should display the app and only one empty list', () => {
     page.navigateTo();
     expect(page.getParagraphText()).toEqual('NanoTask');
     expect(page.getListOfList().count()).toBe(2);
 
   });
+
 
   it('should display two lists when the user add a list', async() => {
     page.navigateTo();
@@ -24,12 +26,14 @@ describe('my-app App', () => {
     expect(page.getListOfList().count()).toBe(3);
   });
 
+
   it('should not add a list when the input is empty and the add button is clicked', async() => {
     page.navigateTo();
     page.addList('');
     await
     expect(page.getListOfList().count()).toBe(2);
   });
+
 
   it('should display zero list when the user click on the delete button', async() => {
     page.navigateTo();
@@ -49,6 +53,7 @@ describe('my-app App', () => {
     expect(nameCurrentList).toBe('list1');
   });
 
+
   it('should add a task to the list when the add button is clicked', async() => {
     page.navigateTo();
     // The function addTask click on the button directly
@@ -57,6 +62,7 @@ describe('my-app App', () => {
 
     expect(page.getListOfTasks().count()).toBe(1);
   });
+
 
   it('should not add a task to the list when the input is empty and the add button is clicked', async() => {
     page.navigateTo();
@@ -71,16 +77,12 @@ describe('my-app App', () => {
       page.navigateTo();
       page.addTask('buy cake');
 
-      const selectedTask = page.getFirstTask();
-      await
-      // We click on the task to make the trash button appear
-      selectedTask.click();
+      page.deleteFirstTask();
 
-      const buttonDel = page.getButton('#deleteTask');
-      buttonDel.click();
       await
       expect(page.getListOfTasks().count()).toBe(0);
   });
+
 
   it('should have the checkbox true, when all the tasks are done', async() => {
       page.navigateTo();
@@ -142,5 +144,83 @@ describe('my-app App', () => {
       expect(nameOfTaskEdited).toBe('EDITED TASK');
 
   });
+
+
+  it('should modify the name when a list with a name that already exists is added', async() => {
+      page.navigateTo();
+      page.addList('list1');
+      // We delete the first list to make it easier to find where the name of the list we added is displayed
+      page.deleteFirstList();
+      const nameFirstList = await page.getTextOfElement('#divNotDel');
+      expect(nameFirstList).toBe('list1 n.1');
+  });
+
+
+  it('should modify the name of a task when a task with a name that already exists is added', async() => {
+      page.navigateTo();
+      // First the same task is added twice
+      page.addTask('task1');
+      page.addTask('task1');
+      // Then we delete the first task to make it easier to find where the name of the task we added is displayed
+      page.deleteFirstTask();
+
+      const nameTask = await page.getTextOfElement('p');
+
+      expect(nameTask).toBe('TASK1 N.1');
+
+  });
+
+
+  it('should still have the task in the list when another list is selected', async() => {
+      page.navigateTo();
+      // We start by adding two tasks to the first list
+      page.addTask('buy groceries');
+      page.addTask('buy cake');
+      // Then we add a list, it will automatically select the list freshly added
+      page.addList('newList');
+
+      // Then we select the first list with the two tasks, we select the first one to make it easier
+      const list = page.getFirstList();
+      list.click();
+
+      // We expect the number of tasks to be 2, the two tasks that we added at the beginning
+      expect(page.getListOfTasks().count()).toBe(2);
+
+  });
+
+
+  it('should still have the task done in the list when another list is selected', async() => {
+    page.navigateTo();
+    // We start by adding three tasks to the first list
+    page.addTask('wash my laundry');
+    page.addTask('watch TV');
+    page.addTask('relax, really important to do that');
+
+    // We add another list
+    page.addList('newList');
+
+    // We go back to the first page
+    const firstList = page.getFirstList();
+    firstList.click();
+
+    // Then we check the checkboxes
+    const checkboxes = element.all(by.css('#ulc li [type="checkbox"]'));
+
+    checkboxes.each((checkbox) => {
+      // We click on each checkbox
+      checkbox.click();
+    });
+
+    // Finally we expect all the checkboxes to still be selected
+    await
+
+    checkboxes.each((checkbox) => {
+      // We check for each checkbox if they are true
+      expect(checkbox.isSelected()).toBeTruthy();
+    });
+
+
+  });
+
 
 });

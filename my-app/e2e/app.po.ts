@@ -33,8 +33,14 @@ export class AppPage {
 
   getFirstTask() {
     const listTask = this.getListOfTasks();
-    const selectedTask = listTask.get(0);
-    return selectedTask;
+    const firstTask = listTask.get(0);
+    return firstTask;
+  }
+
+  getFirstList() {
+    const listOfList = this.getListOfList();
+    const firstList = listOfList.get(0);
+    return firstList;
   }
 
   editListName(name: string) {
@@ -57,6 +63,39 @@ export class AppPage {
 
   getTextOfElement(name: string) {
     return element(by.css(name)).getText();
+  }
+
+  deleteFirstList() {
+    const button = this.getButton('#buttonTrash');
+    button.click();
+  }
+
+  deleteFirstTask() {
+      const selectedTask = this.getFirstTask();
+      selectedTask.click();
+      const buttonDel = this.getButton('#deleteTask');
+      buttonDel.click();
+  }
+
+  checkAllcheckboxes() {
+    const checkboxes = element.all(by.css('#ulc li [type="checkbox"]'));
+
+    checkboxes.each((checkbox) => {
+      // We click on each checkbox
+      checkbox.click();
+    });
+
+
+    checkboxes.each((checkbox) => {
+      // We check for each checkbox if they are true
+      expect(checkbox.isSelected()).toBeTruthy();
+    });
+  }
+
+  getList(num: number) {
+    const lists = this.getListOfList();
+
+    return lists.get(num);
   }
 
 }
