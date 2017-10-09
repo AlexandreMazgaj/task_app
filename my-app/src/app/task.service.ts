@@ -104,9 +104,10 @@ getList(id: number): Promise<TaskManager> {
 /**
   *return the currentList as an Observable
   *@this { TaskService }
-  *@return { Observable<TaskManager }
+  *@return { Observable<TaskManager> }
 */
 getCurrentList(): Observable<TaskManager> {
+  console.log('getCurrentList is called');
   return this.currentList.asObservable();
 }
 
@@ -117,6 +118,7 @@ getCurrentList(): Observable<TaskManager> {
   @return { void }
 */
 setCurrentList(list: TaskManager): void {
+  console.log('setCurrentList is called');
   this.currentList.next(list);
 }
 

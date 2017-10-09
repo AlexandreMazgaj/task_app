@@ -1,0 +1,22 @@
+{
+    "CURRENT": {
+        "MOTIVATION": {
+            "n1": "Hey, we moeten ergens anders beginnen ..",
+            "n2": "je moet een beetje sneller werken als je alles wilt voltooien !!!",
+            "n3": "dat is beter, maar mijn tetraplegische luiaard zou deze taken sneller kunnen voltooien dan jij, je moet nog meer werken!",
+            "n4": " Bijna daar, ik vertrouw je, je kan het doen, hey, als beloning, hier is een robot: <|O_O|>",
+            "n5": "Ja, je hebt het gedaan, gefeliciteerd ... Hey, wat verwacht je? Een medaille?"
+        },
+        "nbTask": "aantal taken :",
+        "nbTaskNotDone": "taken die nog gedaan moeten worden :",
+        "percentage": "lijst voltooiing :"
+    },
+
+    "LISTDISPLAY": {
+        "NEWLIST": "nieuwe lijst"
+    },
+
+    "TASKDISPLAY": {
+        "NEWTASK": "Ik moet ..."
+    }
+}

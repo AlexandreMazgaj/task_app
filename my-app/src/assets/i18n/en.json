@@ -1,0 +1,22 @@
+{
+    "CURRENT": {
+        "MOTIVATION": {
+            "n1": "Hey, we all have to start somewhere..",
+            "n2": "you have to work a little bit faster if you want to complete everything !!!",
+            "n3": "that is better, but my tetraplegic sloth could have completed those tasks faster than you, you still need to work more !!!",
+            "n4": " Almost there, I trust you, you can do it, hey, as a reward, here is a robot : <|O_O|>",
+            "n5": "Yes, you did it, congrats... Hey what do you expect ? A medal ?"
+        },
+        "nbTask": "number of tasks :",
+        "nbTaskNotDone": "tasks yet to be done :",
+        "percentage": "list completion :"
+    },
+
+    "LISTDISPLAY": {
+        "NEWLIST": "new list"
+    },
+
+    "TASKDISPLAY": {
+        "NEWTASK": "I have to..."
+    }
+}

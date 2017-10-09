@@ -2,11 +2,13 @@ h1 {
   font-family: "Bungee";
 	color : #ffffff;
 	margin-left: 0.2em;
-  /*text-align : center;*/
+	display: inline-block;
+	text-align : justify;
 }
 
 header {
-  background-color : #5E412F;
+	background-color : #5E412F;
+	width: 100%;
 }
 
 body{
@@ -26,4 +28,18 @@ body{
 @font-face{
 	font-family: "Concert One";
 	src : url(ConcertOne-Regular.ttf);
+}
+
+select {
+	display: inline-block;
+	border: 0 !important;
+	background-color: #ffffff;
+	width: 100%;
+}
+
+.select {
+	display: inline-block;
+	vertical-align: baseline;
+	width: 15%;
+	right: 0;
 }

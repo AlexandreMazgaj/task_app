@@ -53,7 +53,7 @@
     <li class="input">
       <input id="inputL" #listName class="input-md" 
         type="text" onkeypress="if (event.which==13) document.getElementById('addL').click()" 
-        placeholder="new list of task" tabindex="3">
+        placeholder="{{'LISTDISPLAY.NEWLIST' | translate}}" tabindex="3">
       <button id="addL" class="btn positive btn-circle" (click)="addList(listName.value); listName.value='';">
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>

@@ -1,0 +1,22 @@
+{
+    "CURRENT": {
+        "MOTIVATION": {
+            "n1": "Eh, on doit tous demarrer quelque part..",
+            "n2": "Tu dois travailler plus vite si tu veux pouvoir tout finir",
+            "n3": "C'est mieux, mais mon paresseux tretraplegic pourrait faire mieux, tu dois travailler plus",
+            "n4": "T'y es presque, j'ai confiance tu peux le faire, en recompense, voici un robot <|O_O|>",
+            "n5": "Bravo, t'as reussi, bien joue... Eh tu t'attendais a quoi, un medaille ?"
+        },
+        "nbTask": "nombre de taches :",
+        "nbTaskNotDone": "taches qui ne sont pas pretes d'etre finies",
+        "percentage": "completude de la liste"
+    },
+
+    "LISTDISPLAY": {
+        "NEWLIST": "nouvelle tache"
+    },
+
+    "TASKDISPLAY": {
+        "NEWTASK": "Je dois..."
+    }
+}

@@ -13,7 +13,7 @@
     <input id="inputNew" #taskName class="input-md"
       type = "text"
       onkeypress="if (event.which==13) document.getElementById('buttnew').click()"
-      placeholder="I have to..."
+      placeholder="{{'TASKDISPLAY.NEWTASK' | translate}}"
       tabindex="1"/>
     <button id="buttnew" class="btn btn-md btn-circle positive"
     (click)="add(taskName.value); taskName.value=''">
