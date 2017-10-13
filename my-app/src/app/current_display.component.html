@@ -8,34 +8,36 @@
 -->
   <h3 id="h3current">{{currentList.name}}</h3>
   <div>
-    <p translate="CURRENT.nbTask">number of tasks :</p> <p>{{currentList.tasks.length}}</p>
+    <p translate="CURRENT.nbTask" i18n="display the number of tasks@@numberOfTasks">number of tasks :</p> <p>{{currentList.tasks.length}}</p>
   </div>
   <div>
-    <p translate="CURRENT.nbTaskNotDone">tasks yet to be done :</p> <p>{{getUnDone()}}</p>
+    <p translate="CURRENT.nbTaskNotDone"
+    i18n="display the number of tasks not done@@tasksNotDone">tasks yet to be done :</p> <p>{{getUnDone()}}</p>
   </div>
   <div>
-    <p translate="CURRENT.percentage">list completion :</p>
+    <p translate="CURRENT.percentage"
+    i18n="display the percentage of completion of the list@@listCompletion">list completion :</p>
       <p><meter value="{{getPercentageCompleted()}}" min="0" max="100"></meter>
       {{getPercentageCompleted()}}%
     </p>
   </div>
 
 <!--This is to display a little message every 25% step-->
-  <p *ngIf="percentageCompleted<=25" translate="CURRENT.MOTIVATION.n1">
+  <p *ngIf="percentageCompleted<=25" translate="CURRENT.MOTIVATION.n1" i18n="display a start messages@@message1">
     Hey, we all have to start somewhere..x
   </p>
-  <p *ngIf="percentageCompleted>25 && percentageCompleted<50" translate="CURRENT.MOTIVATION.n2">
+  <p *ngIf="percentageCompleted>25 && percentageCompleted<50" translate="CURRENT.MOTIVATION.n2" i18n="display a second message@@message2">
     you have to work a little bit faster if you want to complete everything !!!
   <p>
-  <p *ngIf="percentageCompleted>=50 && percentageCompleted<75" translate="CURRENT.MOTIVATION.n3">
+  <p *ngIf="percentageCompleted>=50 && percentageCompleted<75" translate="CURRENT.MOTIVATION.n3" i18n=" display a third message@@message3">
     that is better, but my tetraplegic sloth could have completed those tasks faster than you, you still need to work more !!!
   </p>
 
-  <p *ngIf="percentageCompleted>=75 && percentageCompleted<100" translate="CURRENT.MOTIVATION.n4">
+  <p *ngIf="percentageCompleted>=75 && percentageCompleted<100" translate="CURRENT.MOTIVATION.n4" i18n="display a fourth message@@message4">
     Almost there, I trust you, you can do it, hey, as a reward, here is a robot : <|O_O|>
   </p>
 
-  <p *ngIf="percentageCompleted==100" translate="CURRENT.MOTIVATION.n5">
+  <p *ngIf="percentageCompleted==100" translate="CURRENT.MOTIVATION.n5" i18n="display the final message@@messages5">
     Yes, you did it, congrats... Hey what do you expect ? A medal ?
   </p>
 

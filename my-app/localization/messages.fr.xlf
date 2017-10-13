@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="numberOfTasks" datatype="html">
+        <source>number of tasks :</source>
+        <target>nombre de taches :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">display the number of tasks</note>
+      </trans-unit>
+      <trans-unit id="tasksNotDone" datatype="html">
+        <source>tasks yet to be done :</source>
+        <target>taches loin d'etre finies :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">display the number of tasks not done</note>
+      </trans-unit>
+      <trans-unit id="listCompletion" datatype="html">
+        <source>list completion :</source>
+        <target>completude de la liste:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">display the percentage of completion of the list</note>
+      </trans-unit>
+      <trans-unit id="message1" datatype="html">
+        <source>
+    Hey, we all have to start somewhere..x
+  </source>
+  <target>Hey, on doit tous demarrer quelque part..x</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <note priority="1" from="description">display a start messages</note>
+      </trans-unit>
+      <trans-unit id="message2" datatype="html">
+        <source>
+    you have to work a little bit faster if you want to complete everything !!!
+  </source>
+  <target>tu dois travailler un peu plus vite si tu veux pouvoir tout faire</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description">display a second message</note>
+      </trans-unit>
+      <trans-unit id="message3" datatype="html">
+        <source>
+    that is better, but my tetraplegic sloth could have completed those tasks faster than you, you still need to work more !!!
+  </source>
+  <target>c'est mieux, mais mon paresseux tetraplegique pourrait faire mieux, tu dois travailler plus</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description"> display a third message</note>
+      </trans-unit>
+      <trans-unit id="message4" datatype="html">
+        <source>
+    Almost there, I trust you, you can do it, hey, as a reward, here is a robot : &lt;|O_O|&gt;
+  </source>
+  <target>T'y es presque, j'ai confiance en toi, tu peux le faire, hey, comme recompense voici un robot : &lt;|O_O|&gt;</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description">display a fourth message</note>
+      </trans-unit>
+      <trans-unit id="messages5" datatype="html">
+        <source>
+    Yes, you did it, congrats... Hey what do you expect ? A medal ?
+  </source>
+  <target>Bravo, tu l'as fais, felicitations... Hey tu t'attendais a quoi ? Une medaille ?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/current_display.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <note priority="1" from="description">display the final message</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
